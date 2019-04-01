@@ -47,6 +47,13 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
         network.netKeys = deserializeNetKeys(context, jsonObject.getAsJsonArray("netKeys"), network.meshUUID);
         network.appKeys = deserializeAppKeys(context, jsonObject.getAsJsonArray("appKeys"), network.meshUUID);
         network.provisioners = deserializeProvisioners(context, jsonObject.getAsJsonArray("provisioners"), network.meshUUID);
+        JsonElement unicastAddress = jsonObject.get("unicastAddress");
+        if (unicastAddress != null) {
+            Provisioner firstProvisioner = network.provisioners.get(0);
+            if (firstProvisioner != null) {
+                firstProvisioner.setProvisionerAddress(MeshParserUtils.hexToInt(unicastAddress.getAsString()));
+            }
+        }
         if (jsonObject.has("nodes"))
             network.nodes = deserializeNodes(context, jsonObject.getAsJsonArray("nodes"), network.meshUUID);
 
@@ -70,6 +77,7 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
         jsonObject.addProperty("version", network.getVersion());
         jsonObject.addProperty("meshUUID", network.getMeshUUID());
         jsonObject.addProperty("meshName", network.getMeshName());
+        jsonObject.addProperty("unicastAddress", MeshParserUtils.bytesToHex(MeshParserUtils.intToBytes(network.getProvisionerAddress()), false));
         jsonObject.addProperty("timestamp", Long.toString(network.getTimestamp(), 16));
         jsonObject.add("provisioners", serializeProvisioners(context, network.getProvisioners()));
         jsonObject.add("netKeys", serializeNetKeys(context, network.getNetKeys()));
