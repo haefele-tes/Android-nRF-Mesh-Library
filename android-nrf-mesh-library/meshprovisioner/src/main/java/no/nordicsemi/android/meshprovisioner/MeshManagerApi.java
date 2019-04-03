@@ -1051,6 +1051,7 @@ public class MeshManagerApi implements MeshMngrApi {
             meshNetwork.setCallbacks(callbacks);
             insertNetwork(meshNetwork);
             mMeshNetwork = meshNetwork;
+            mMeshNetworkDb.updateNetwork(mMeshNetworkDao, mMeshNetwork);
             mTransportCallbacks.onNetworkImported(meshNetwork);
         }
 
