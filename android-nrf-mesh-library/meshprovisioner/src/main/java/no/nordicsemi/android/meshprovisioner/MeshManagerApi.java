@@ -1048,11 +1048,24 @@ public class MeshManagerApi implements MeshMngrApi {
 
         @Override
         public void onNetworkImportedFromJson(final MeshNetwork meshNetwork) {
-            meshNetwork.setCallbacks(callbacks);
-            insertNetwork(meshNetwork);
-            mMeshNetwork = meshNetwork;
+            /*
+            // this will keep the database, so we better delete it
+            // set selected false
+            mMeshNetwork.lastSelected = false;
+            mMeshNetwork.setTimestamp(MeshParserUtils.getInternationalAtomicTime(System.currentTimeMillis()));
             mMeshNetworkDb.updateNetwork(mMeshNetworkDao, mMeshNetwork);
-            mTransportCallbacks.onNetworkImported(meshNetwork);
+            */
+
+            // delete old database before inserting new one
+            final MeshNetwork meshNet = mMeshNetwork;
+            deleteMeshNetworkFromDb(meshNet);
+
+            // insert this one
+            final MeshNetwork newMeshNetwork = meshNetwork;
+            newMeshNetwork.setCallbacks(callbacks);
+            insertNetwork(newMeshNetwork);
+            mMeshNetwork = newMeshNetwork;
+            mTransportCallbacks.onNetworkImported(newMeshNetwork );
         }
 
         @Override
