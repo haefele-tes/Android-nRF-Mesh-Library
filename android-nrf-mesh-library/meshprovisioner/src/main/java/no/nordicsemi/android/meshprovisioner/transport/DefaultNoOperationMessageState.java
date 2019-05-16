@@ -64,6 +64,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
      * @param message access message received by the acccess layer
      */
     private void parseAccessMessage(final AccessMessage message) {
+        //if (message.getDst() == this.mMeshTransport.ne)
+        // this.mMeshTransport.mNetworkLayerCallbacks.getProvisioner().getProvisionerAddress();
+
+        //mInternalTransportCallbacks.
         final byte[] accessPayload = message.getAccessPdu();
         final ProvisionedMeshNode node = mInternalTransportCallbacks.getProvisionedNode(message.getSrc());
         final int opCodeLength = ((accessPayload[0] & 0xF0) >> 6);
