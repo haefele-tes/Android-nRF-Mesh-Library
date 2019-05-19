@@ -35,4 +35,7 @@ public interface MeshNetworkDao {
     @Query("SELECT * from mesh_network WHERE last_selected IS :lastSelected")
     MeshNetwork getMeshNetwork(final boolean lastSelected);
 
+    @Query("SELECT * from mesh_network WHERE mesh_uuid IS :networkId")
+    MeshNetwork getMeshNetworkWithId(final String networkId);
+
 }

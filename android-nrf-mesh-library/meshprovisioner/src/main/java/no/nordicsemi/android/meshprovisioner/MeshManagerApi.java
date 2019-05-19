@@ -857,12 +857,8 @@ public class MeshManagerApi implements MeshMngrApi {
     @Override
     public void importMeshNetwork(@NonNull final Uri uri) {
         if (uri.getPath() != null) {
-            if (uri.getPath().endsWith(".json")) {
                 NetworkImportExportUtils.importMeshNetwork(mContext, uri, networkLoadCallbacks);
-            } else {
-                mTransportCallbacks.onNetworkImportFailed("Invalid file type detected! " +
-                        "Network information can be imported only from a valid JSON file that follows the Mesh Provisioning/Configuration Database format!");
-            }
+
         } else {
             mTransportCallbacks.onNetworkImportFailed("URI getPath() returned null!");
         }
