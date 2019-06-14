@@ -452,6 +452,7 @@ abstract class LowerTransportLayer extends UpperTransportLayer {
         Log.v(TAG, "SEG N: " + segN);
 
         final int ivIndex = ByteBuffer.wrap(mUpperTransportLayerCallbacks.getIvIndex()).order(ByteOrder.BIG_ENDIAN).getInt();
+        // FIXME: this is probably incorrect, ivIndex needs to be shifted left? or masked with ivi only
         final int seqAuth = ivIndex | getTransportLayerSequenceNumber(MeshParserUtils.getSequenceNumberFromPDU(pdu), seqZero);
         final Integer lastSeqAuth = mMeshNode.getSeqAuth(blockAckDst);
         if (lastSeqAuth != null)
