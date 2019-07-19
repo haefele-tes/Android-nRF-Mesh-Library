@@ -25,6 +25,16 @@ package no.nordicsemi.android.meshprovisioner.opcodes;
 public class ApplicationMessageOpCodes {
 
     /**
+     * Opcode for the "Generic User Property Get" message.
+     */
+    public static final int GENERIC_USER_PROPERTY_GET = 0x822F;
+
+    /**
+     * Opcode for the "Generic User Property Status" message.
+     */
+    public static final int GENERIC_USER_PROPERTY_STATUS = 0x4E;
+
+    /**
      * Opcode for the "Generic OnOff Get" message.
      */
     public static final int GENERIC_ON_OFF_GET = 0x8201;

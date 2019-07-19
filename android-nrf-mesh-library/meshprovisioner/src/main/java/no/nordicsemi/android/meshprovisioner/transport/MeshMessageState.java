@@ -170,7 +170,10 @@ abstract class MeshMessageState implements LowerTransportLayerCallbacks {
         CONFIG_PROXY_GET_STATE(10),
         CONFIG_PROXY_SET_STATE(11),
 
+
+
         //Application message States
+        GENERIC_USER_PROPERTY_GET_STATE(199),
         GENERIC_ON_OFF_GET_STATE(200),
         GENERIC_ON_OFF_SET_STATE(201),
         GENERIC_ON_OFF_SET_UNACKNOWLEDGED_STATE(202),

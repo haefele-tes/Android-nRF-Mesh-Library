@@ -86,6 +86,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     final SceneStatus sceneStatus = new SceneStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(sceneStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), sceneStatus);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.GENERIC_USER_PROPERTY_STATUS) {
+                    final GenericUserPropertyStatus userPropertyStatus = new GenericUserPropertyStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(userPropertyStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), userPropertyStatus);
                 }
                 break;
             case 2:
@@ -165,7 +169,11 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     final ConfigProxyStatus status = new ConfigProxyStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(status);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), status);
-                } else if (message.getOpCode() == ApplicationMessageOpCodes.GENERIC_ON_OFF_STATUS) {
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.GENERIC_USER_PROPERTY_STATUS) {
+                    final GenericUserPropertyStatus status = new GenericUserPropertyStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(status);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), status);
+                }else if (message.getOpCode() == ApplicationMessageOpCodes.GENERIC_ON_OFF_STATUS) {
                     final GenericOnOffStatus status = new GenericOnOffStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(status);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), status);

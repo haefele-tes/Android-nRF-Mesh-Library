@@ -140,6 +140,10 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             }
         } else if (mMeshMessageState instanceof GenericMessageState) {
             switch (mMeshMessageState.getState()) {
+                case GENERIC_USER_PROPERTY_GET_STATE:
+                    final GenericUserPropertyGetState onUserPropertyState = (GenericUserPropertyGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, onUserPropertyState.getMeshMessage(), mMeshTransport, this));
+                    break;
                 case GENERIC_ON_OFF_GET_STATE:
                     final GenericOnOffGetState onOffGetState = (GenericOnOffGetState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, onOffGetState.getMeshMessage(), mMeshTransport, this));
@@ -479,6 +483,12 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             genericOnOffGetState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = genericOnOffGetState;
             genericOnOffGetState.executeSend();
+        } else if (genericMessage instanceof GenericUserPropertyGet) {
+            final GenericUserPropertyGetState genericUserPropertyGetState = new GenericUserPropertyGetState(mContext, src, dst, (GenericUserPropertyGet) genericMessage, mMeshTransport, this);
+            genericUserPropertyGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericUserPropertyGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericUserPropertyGetState;
+            genericUserPropertyGetState.executeSend();
         } else if (genericMessage instanceof GenericOnOffSet) {
             final GenericOnOffSetState genericOnOffSetState = new GenericOnOffSetState(mContext, src, dst, (GenericOnOffSet) genericMessage, mMeshTransport, this);
             genericOnOffSetState.setTransportCallbacks(mInternalTransportCallbacks);
