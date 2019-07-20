@@ -21,9 +21,10 @@
  */
 package no.nordicsemi.android.meshprovisioner.transport;
 
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.util.SparseArray;
+
+import androidx.annotation.VisibleForTesting;
 
 import org.spongycastle.crypto.InvalidCipherTextException;
 
