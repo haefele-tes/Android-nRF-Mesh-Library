@@ -140,6 +140,18 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             }
         } else if (mMeshMessageState instanceof GenericMessageState) {
             switch (mMeshMessageState.getState()) {
+                case HEALTH_ATTENTION_GET_STATE:
+                    final HealthAttentionGetState healthAttentionGetState = (HealthAttentionGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, healthAttentionGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case HEALTH_ATTENTION_SET_STATE:
+                    final HealthAttentionSetState healthAttentionSetState = (HealthAttentionSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, healthAttentionSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case HEALTH_ATTENTION_SET_UNACKNOWLEDGED_STATE:
+                    final HealthAttentionSetUnacknowledgedState healthAttentionSetUnacknowledgedState = (HealthAttentionSetUnacknowledgedState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, healthAttentionSetUnacknowledgedState.getMeshMessage(), mMeshTransport, this));
+                    break;
                 case GENERIC_USER_PROPERTY_GET_STATE:
                     final GenericUserPropertyGetState onUserPropertyState = (GenericUserPropertyGetState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, onUserPropertyState.getMeshMessage(), mMeshTransport, this));
@@ -483,6 +495,24 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             genericOnOffGetState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = genericOnOffGetState;
             genericOnOffGetState.executeSend();
+        } if (genericMessage instanceof HealthAttentionGet) {
+            final HealthAttentionGetState state = new HealthAttentionGetState(mContext, src, dst, (HealthAttentionGet) genericMessage, mMeshTransport, this);
+            state.setTransportCallbacks(mInternalTransportCallbacks);
+            state.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = state;
+            state.executeSend();
+        } if (genericMessage instanceof HealthAttentionSet) {
+            final HealthAttentionSetState state = new HealthAttentionSetState(mContext, src, dst, (HealthAttentionSet) genericMessage, mMeshTransport, this);
+            state.setTransportCallbacks(mInternalTransportCallbacks);
+            state.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = state;
+            state.executeSend();
+        } if (genericMessage instanceof HealthAttentionSetUnacknowledged) {
+            final HealthAttentionSetUnacknowledgedState state = new HealthAttentionSetUnacknowledgedState(mContext, src, dst, (HealthAttentionSetUnacknowledged) genericMessage, mMeshTransport, this);
+            state.setTransportCallbacks(mInternalTransportCallbacks);
+            state.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = state;
+            state.executeSend();
         } else if (genericMessage instanceof GenericUserPropertyGet) {
             final GenericUserPropertyGetState genericUserPropertyGetState = new GenericUserPropertyGetState(mContext, src, dst, (GenericUserPropertyGet) genericMessage, mMeshTransport, this);
             genericUserPropertyGetState.setTransportCallbacks(mInternalTransportCallbacks);

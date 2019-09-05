@@ -55,6 +55,26 @@ public class ApplicationMessageOpCodes {
     public static final int GENERIC_ON_OFF_STATUS = 0x8204;
 
     /**
+     * Opcode for the "Health Attention Get" message.
+     */
+    public static final int HEALTH_ATTENTION_GET = 0x8004;
+
+    /**
+     * Opcode for the "Health Attention Set" message.
+     */
+    public static final int HEALTH_ATTENTION_SET = 0x8005;
+
+    /**
+     * Opcode for the "Health Attention Set Unacknowledged" message.
+     */
+    public static final int HEALTH_ATTENTION_SET_UNACKNOWLEDGED = 0x8006;
+
+    /**
+     * Opcode for the "Health Attention Status" message.
+     */
+    public static final int HEALTH_ATTENTION_STATUS = 0x8007;
+
+    /**
      * Opcode for the "Generic Level Get" message.
      */
     public static final int GENERIC_LEVEL_GET = 0x8205;
