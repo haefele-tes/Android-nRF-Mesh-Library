@@ -662,7 +662,13 @@ public class MeshParserUtils {
 
     public static byte[] intToBytes(int i) {
         ByteBuffer b = ByteBuffer.allocate(4);
-        b.putInt(i);
+        b.putInt((int) (i & 0xffffffffL));
+        return b.array();
+    }
+
+    public static byte[] shortToBytes(int i) {
+        ByteBuffer b = ByteBuffer.allocate(2);
+        b.putShort((short) (i & 0xffff));
         return b.array();
     }
 
