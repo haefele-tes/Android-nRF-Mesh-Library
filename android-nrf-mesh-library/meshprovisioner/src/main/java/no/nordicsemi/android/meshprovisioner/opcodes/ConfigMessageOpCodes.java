@@ -45,6 +45,11 @@ public class ConfigMessageOpCodes {
     public static final byte CONFIG_MODEL_PUBLICATION_SET = 0x03;
 
     /**
+     * Opcode for the "Health Fault Status" message.
+     */
+    public static final int HEALTH_FAULT_STATUS = 0x05;
+
+    /**
      * Opcode for the "Heartbeat Publication Status" message.
      */
     public static final int CONFIG_HEARTBEAT_PUBLICATION_STATUS = 0x06;

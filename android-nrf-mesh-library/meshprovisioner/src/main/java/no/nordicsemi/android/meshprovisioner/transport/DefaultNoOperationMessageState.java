@@ -79,6 +79,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     node.setCompositionData(status);
                     mInternalTransportCallbacks.updateMeshNetwork(status);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), status);
+                } else if (message.getOpCode() == ConfigMessageOpCodes.HEALTH_FAULT_STATUS) {
+                    final HealthFaultStatus faultStatus = new HealthFaultStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(faultStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), faultStatus);
                 }
                 break;
             case 1:

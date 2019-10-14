@@ -140,6 +140,14 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             }
         } else if (mMeshMessageState instanceof GenericMessageState) {
             switch (mMeshMessageState.getState()) {
+                case HEALTH_FAULT_GET_STATE:
+                    final HealthFaultGetState healthFaultGetState = (HealthFaultGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, healthFaultGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case HEALTH_FAULT_TEST_STATE:
+                    final HealthFaultTestState healthFaultTestState = (HealthFaultTestState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, healthFaultTestState.getMeshMessage(), mMeshTransport, this));
+                    break;
                 case HEALTH_ATTENTION_GET_STATE:
                     final HealthAttentionGetState healthAttentionGetState = (HealthAttentionGetState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, healthAttentionGetState.getMeshMessage(), mMeshTransport, this));
@@ -495,19 +503,31 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             genericOnOffGetState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = genericOnOffGetState;
             genericOnOffGetState.executeSend();
-        } if (genericMessage instanceof HealthAttentionGet) {
+        } else if (genericMessage instanceof HealthFaultGet) {
+            final HealthFaultGetState state = new HealthFaultGetState(mContext, src, dst, (HealthFaultGet) genericMessage, mMeshTransport, this);
+            state.setTransportCallbacks(mInternalTransportCallbacks);
+            state.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = state;
+            state.executeSend();
+        } else if (genericMessage instanceof HealthFaultTest) {
+            final HealthFaultTestState state = new HealthFaultTestState(mContext, src, dst, (HealthFaultTest) genericMessage, mMeshTransport, this);
+            state.setTransportCallbacks(mInternalTransportCallbacks);
+            state.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = state;
+            state.executeSend();
+        } else if (genericMessage instanceof HealthAttentionGet) {
             final HealthAttentionGetState state = new HealthAttentionGetState(mContext, src, dst, (HealthAttentionGet) genericMessage, mMeshTransport, this);
             state.setTransportCallbacks(mInternalTransportCallbacks);
             state.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = state;
             state.executeSend();
-        } if (genericMessage instanceof HealthAttentionSet) {
+        } else if (genericMessage instanceof HealthAttentionSet) {
             final HealthAttentionSetState state = new HealthAttentionSetState(mContext, src, dst, (HealthAttentionSet) genericMessage, mMeshTransport, this);
             state.setTransportCallbacks(mInternalTransportCallbacks);
             state.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = state;
             state.executeSend();
-        } if (genericMessage instanceof HealthAttentionSetUnacknowledged) {
+        } else if (genericMessage instanceof HealthAttentionSetUnacknowledged) {
             final HealthAttentionSetUnacknowledgedState state = new HealthAttentionSetUnacknowledgedState(mContext, src, dst, (HealthAttentionSetUnacknowledged) genericMessage, mMeshTransport, this);
             state.setTransportCallbacks(mInternalTransportCallbacks);
             state.setStatusCallbacks(mStatusCallbacks);

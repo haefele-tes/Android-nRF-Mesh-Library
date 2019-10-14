@@ -55,6 +55,16 @@ public class ApplicationMessageOpCodes {
     public static final int GENERIC_ON_OFF_STATUS = 0x8204;
 
     /**
+     * Opcode for the "Health Fault Get" message.
+     */
+    public static final int HEALTH_FAULT_GET = 0x8031;
+
+    /**
+     * Opcode for the "Health Fault Test" message.
+     */
+    public static final int HEALTH_FAULT_TEST = 0x8032;
+
+    /**
      * Opcode for the "Health Attention Get" message.
      */
     public static final int HEALTH_ATTENTION_GET = 0x8004;
