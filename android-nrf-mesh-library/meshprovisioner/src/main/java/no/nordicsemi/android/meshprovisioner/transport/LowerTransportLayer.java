@@ -687,7 +687,12 @@ abstract class LowerTransportLayer extends UpperTransportLayer {
             mDuration = System.currentTimeMillis() + duration;
             mHandler.postDelayed(() -> {
                 Log.v(TAG, "Acknowledgement timer expiring");
-                sendBlockAck(seqZero, ttl, src, dst, segN);
+                try {
+                    sendBlockAck(seqZero, ttl, src, dst, segN);
+                } catch (Exception e) {
+
+                }
+
             }, duration);
         }
     }
