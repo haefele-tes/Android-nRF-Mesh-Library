@@ -143,7 +143,9 @@ public abstract class NetworkLayer extends LowerTransportLayer {
             final byte[] privacyRandom = createPrivacyRandom(encryptedPayload);
             //Next we create the PECB
             final byte[] pecb = createPECB(message.getIvIndex(), privacyRandom, privacyKey);
-
+            Log.v(TAG, "encryptedData: " + MeshParserUtils.bytesToHex(encryptedPayload, false));
+            Log.v(TAG, "ivIndex: " + MeshParserUtils.bytesToHex(message.getIvIndex(), false));
+            Log.v(TAG, "privacyKey: " + MeshParserUtils.bytesToHex(privacyKey, false));
 
             final byte[] header = obfuscateNetworkHeader(ctlTTL, sequenceNumbers.get(i), src, pecb);
             final byte[] networkPdu = ByteBuffer.allocate(1 + 1 + header.length + encryptedPayload.length).order(ByteOrder.BIG_ENDIAN)
@@ -234,6 +236,11 @@ public abstract class NetworkLayer extends LowerTransportLayer {
 
         final byte ctlTTL = (byte) ((message.getCtl() << 7) | message.getTtl());
         final byte[] networkNonce = createNetworkNonce(ctlTTL, sequenceNumber, message.getSrc(), message.getIvIndex());
+        Log.v(TAG, "iv index: " + MeshParserUtils.bytesToHex(message.getIvIndex(), false));
+        Log.v(TAG, "ctl: " + message.getCtl());
+        Log.v(TAG, "ttl: " + message.getTtl());
+        Log.v(TAG, "seq: " + MeshParserUtils.bytesToHex(sequenceNumber, false));
+        Log.v(TAG, "src: " + MeshParserUtils.bytesToHex(MeshParserUtils.intToBytes(message.getSrc()), false));
         Log.v(TAG, "Network nonce: " + MeshParserUtils.bytesToHex(networkNonce, false));
 
         final int dst = message.getDst();
@@ -241,6 +248,10 @@ public abstract class NetworkLayer extends LowerTransportLayer {
         final byte[] unencryptedNetworkPayload = ByteBuffer.allocate(2 + lowerTransportPdu.length).order(ByteOrder.BIG_ENDIAN).putShort((short) dst).put(lowerTransportPdu).array();
 
         //Network layer encryption
+        Log.v(TAG, "data to encrypt: " + MeshParserUtils.bytesToHex(unencryptedNetworkPayload, false));
+        Log.v(TAG, "encryption key: " + MeshParserUtils.bytesToHex(encryptionKey, false));
+        Log.v(TAG, "network nonce: " + MeshParserUtils.bytesToHex(networkNonce, false));
+        Log.v(TAG, "mic size: " + SecureUtils.getNetMicLength(message.getCtl()));
         return SecureUtils.encryptCCM(unencryptedNetworkPayload, encryptionKey, networkNonce, SecureUtils.getNetMicLength(message.getCtl()));
     }
 
@@ -290,6 +301,11 @@ public abstract class NetworkLayer extends LowerTransportLayer {
         final byte[] obfuscated = new byte[6];
         for (int i = 0; i < 6; i++)
             obfuscated[i] = (byte) (headerBuffer[i] ^ pecb[i]);
+
+        Log.v(TAG, "encryptedData: "+ MeshParserUtils.bytesToHex(pecb, false));
+        Log.v(TAG, "ctlTtl: " + ctlTTL);
+        Log.v(TAG, "seq: " + MeshParserUtils.bytesToHex(sequenceNumber, false));
+        Log.v(TAG, "source: "+ MeshParserUtils.bytesToHex(MeshParserUtils.intToBytes(src), false));
 
         return obfuscated;
     }
@@ -696,6 +712,8 @@ public abstract class NetworkLayer extends LowerTransportLayer {
      */
     private SecureUtils.K2Output getK2Output() {
         final NetworkKey networkKey = mNetworkLayerCallbacks.getPrimaryNetworkKey();
+        Log.v(TAG, "Using netkey: " + MeshParserUtils.bytesToHex(networkKey.getKey(), false));
+
         return SecureUtils.calculateK2(networkKey.getKey(), SecureUtils.K2_MASTER_INPUT);
     }
 }

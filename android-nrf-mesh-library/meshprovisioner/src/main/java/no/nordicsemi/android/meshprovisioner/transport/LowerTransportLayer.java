@@ -263,6 +263,7 @@ abstract class LowerTransportLayer extends UpperTransportLayer {
         lowerTransportBuffer.put(header);
         lowerTransportBuffer.put(encryptedUpperTransportPDU);
         final byte[] lowerTransportPDU = lowerTransportBuffer.array();
+        Log.v(TAG, "Unsegmented Lower: encryptedUpperTransportPDU " + MeshParserUtils.bytesToHex(lowerTransportPDU, false));
         Log.v(TAG, "Unsegmented Lower transport access PDU " + MeshParserUtils.bytesToHex(lowerTransportPDU, false));
         return lowerTransportPDU;
     }
