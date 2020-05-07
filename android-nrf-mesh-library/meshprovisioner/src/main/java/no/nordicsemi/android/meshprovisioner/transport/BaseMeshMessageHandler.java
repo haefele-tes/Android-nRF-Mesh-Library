@@ -188,6 +188,21 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     final GenericLevelSetUnacknowledgedState levelSetUnacknowledgedState = (GenericLevelSetUnacknowledgedState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, levelSetUnacknowledgedState.getMeshMessage(), mMeshTransport, this));
                     break;
+                 case GENERIC_ON_POWER_UP_GET_STATE: {
+                     final GenericOnPowerUpGetState state = (GenericOnPowerUpGetState) mMeshMessageState;
+                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, state.getMeshMessage(), mMeshTransport, this));
+                     break;
+                 }
+                case GENERIC_ON_POWER_UP_SET_STATE: {
+                    final GenericOnPowerUpSetState state = (GenericOnPowerUpSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, state.getMeshMessage(), mMeshTransport, this));
+                    break;
+                }
+                case GENERIC_ON_POWER_UP_SET_UNACKNOWLEDGED_STATE: {
+                    final GenericOnPowerUpSetUnacknowledgedState state = (GenericOnPowerUpSetUnacknowledgedState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, state.getMeshMessage(), mMeshTransport, this));
+                    break;
+                }
                 case LIGHT_LIGHTNESS_GET_STATE:
                     final LightLightnessGetState lightnessGetState = (LightLightnessGetState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, lightnessGetState.getMeshMessage(), mMeshTransport, this));
@@ -503,6 +518,38 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             genericOnOffGetState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = genericOnOffGetState;
             genericOnOffGetState.executeSend();
+        } else if (genericMessage instanceof GenericOnOffSet) {
+            final GenericOnOffSetState genericOnOffSetState = new GenericOnOffSetState(mContext, src, dst, (GenericOnOffSet) genericMessage, mMeshTransport, this);
+            genericOnOffSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericOnOffSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericOnOffSetState;
+            genericOnOffSetState.executeSend();
+        } else if (genericMessage instanceof GenericOnOffSetUnacknowledged) {
+            final GenericOnOffSetUnacknowledgedState genericOnOffSetUnAckedState = new GenericOnOffSetUnacknowledgedState(mContext,
+                    src, dst, (GenericOnOffSetUnacknowledged) genericMessage, mMeshTransport, this);
+            genericOnOffSetUnAckedState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericOnOffSetUnAckedState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericOnOffSetUnAckedState;
+            genericOnOffSetUnAckedState.executeSend();
+        } else if (genericMessage instanceof GenericOnPowerUpGet) {
+            final GenericOnPowerUpGetState genericOnPowerUpGetState = new GenericOnPowerUpGetState(mContext, src, dst, (GenericOnPowerUpGet) genericMessage, mMeshTransport, this);
+            genericOnPowerUpGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericOnPowerUpGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericOnPowerUpGetState;
+            genericOnPowerUpGetState.executeSend();
+        } else if (genericMessage instanceof GenericOnPowerUpSet) {
+            final GenericOnPowerUpSetState genericOnPowerUpSetState = new GenericOnPowerUpSetState(mContext, src, dst, (GenericOnPowerUpSet) genericMessage, mMeshTransport, this);
+            genericOnPowerUpSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericOnPowerUpSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericOnPowerUpSetState;
+            genericOnPowerUpSetState.executeSend();
+        } else if (genericMessage instanceof GenericOnPowerUpSetUnacknowledged) {
+            final GenericOnPowerUpSetUnacknowledgedState genericOnPowerUpSetUnAckedState = new GenericOnPowerUpSetUnacknowledgedState(mContext,
+                    src, dst, (GenericOnPowerUpSetUnacknowledged) genericMessage, mMeshTransport, this);
+            genericOnPowerUpSetUnAckedState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericOnPowerUpSetUnAckedState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericOnPowerUpSetUnAckedState;
+            genericOnPowerUpSetUnAckedState.executeSend();
         } else if (genericMessage instanceof HealthFaultGet) {
             final HealthFaultGetState state = new HealthFaultGetState(mContext, src, dst, (HealthFaultGet) genericMessage, mMeshTransport, this);
             state.setTransportCallbacks(mInternalTransportCallbacks);
@@ -539,19 +586,6 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             genericUserPropertyGetState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = genericUserPropertyGetState;
             genericUserPropertyGetState.executeSend();
-        } else if (genericMessage instanceof GenericOnOffSet) {
-            final GenericOnOffSetState genericOnOffSetState = new GenericOnOffSetState(mContext, src, dst, (GenericOnOffSet) genericMessage, mMeshTransport, this);
-            genericOnOffSetState.setTransportCallbacks(mInternalTransportCallbacks);
-            genericOnOffSetState.setStatusCallbacks(mStatusCallbacks);
-            mMeshMessageState = genericOnOffSetState;
-            genericOnOffSetState.executeSend();
-        } else if (genericMessage instanceof GenericOnOffSetUnacknowledged) {
-            final GenericOnOffSetUnacknowledgedState genericOnOffSetUnAckedState = new GenericOnOffSetUnacknowledgedState(mContext,
-                    src, dst, (GenericOnOffSetUnacknowledged) genericMessage, mMeshTransport, this);
-            genericOnOffSetUnAckedState.setTransportCallbacks(mInternalTransportCallbacks);
-            genericOnOffSetUnAckedState.setStatusCallbacks(mStatusCallbacks);
-            mMeshMessageState = genericOnOffSetUnAckedState;
-            genericOnOffSetUnAckedState.executeSend();
         } else if (genericMessage instanceof GenericLevelGet) {
             final GenericLevelGetState genericLevelGetState = new GenericLevelGetState(mContext, src, dst, (GenericLevelGet) genericMessage, mMeshTransport, this);
             genericLevelGetState.setTransportCallbacks(mInternalTransportCallbacks);

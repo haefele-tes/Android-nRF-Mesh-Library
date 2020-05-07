@@ -55,6 +55,26 @@ public class ApplicationMessageOpCodes {
     public static final int GENERIC_ON_OFF_STATUS = 0x8204;
 
     /**
+     * Opcode for the "Generic On Power Up Get" message.
+     */
+    public static final int GENERIC_ON_POWER_UP_GET = 0x8211;
+
+    /**
+     * Opcode for the "Generic On Power Up Status" message.
+     */
+    public static final int GENERIC_ON_POWER_UP_STATUS = 0x8212;
+
+    /**
+     * Opcode for the "Generic On Power Up Set" message.
+     */
+    public static final int GENERIC_ON_POWER_UP_SET = 0x8213;
+
+    /**
+     * Opcode for the "Generic On Power Up Set Unacknowledged" message.
+     */
+    public static final int GENERIC_ON_POWER_UP_SET_UNACKNOWLEDGED = 0x8214;
+
+    /**
      * Opcode for the "Health Fault Get" message.
      */
     public static final int HEALTH_FAULT_GET = 0x8031;

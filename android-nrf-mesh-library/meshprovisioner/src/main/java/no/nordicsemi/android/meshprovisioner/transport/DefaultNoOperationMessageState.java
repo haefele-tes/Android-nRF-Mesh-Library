@@ -181,6 +181,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     final GenericOnOffStatus status = new GenericOnOffStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(status);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), status);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.GENERIC_ON_POWER_UP_STATUS) {
+                    final GenericOnPowerUpStatus status = new GenericOnPowerUpStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(status);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), status);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.HEALTH_ATTENTION_STATUS) {
                     final HealthAttentionStatus status = new HealthAttentionStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(status);
