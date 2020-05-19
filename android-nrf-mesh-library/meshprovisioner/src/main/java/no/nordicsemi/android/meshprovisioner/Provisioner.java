@@ -1,6 +1,9 @@
 package no.nordicsemi.android.meshprovisioner;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
@@ -90,6 +93,11 @@ public class Provisioner {
         this.allocatedGroupRanges = allocatedGroupRanges;
         this.allocatedSceneRanges = allocatedSceneRanges;
         this.meshUuid = meshUuid;
+
+        // load seq from shared settings
+        SharedPreferences sharedPreferences = MeshManagerApi.context.getSharedPreferences("thingosMesh", Context.MODE_PRIVATE);
+        int sharedSeq = sharedPreferences.getInt("seq", 0);
+        sequenceNumber = Math.max(sequenceNumber, sharedSeq);
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -208,7 +216,10 @@ public class Provisioner {
     }
 
     public void setSequenceNumber(final int sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+        // set the maximum from sequenceNumber and shared preferences
+        SharedPreferences sharedPreferences = MeshManagerApi.context.getSharedPreferences("thingosMesh", Context.MODE_PRIVATE);
+        int sharedSeq = sharedPreferences.getInt("seq", 0);
+        this.sequenceNumber = Math.max(sequenceNumber, sharedSeq);
     }
 
     public int getProvisionerAddress() {
@@ -240,6 +251,9 @@ public class Provisioner {
 
     public int incrementSequenceNumber() {
         sequenceNumber = sequenceNumber + 1;
+        // save to shared preferences
+        SharedPreferences sharedPreferences = MeshManagerApi.context.getSharedPreferences("thingosMesh", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putInt("seq", sequenceNumber).apply();
         return sequenceNumber;
     }
 }

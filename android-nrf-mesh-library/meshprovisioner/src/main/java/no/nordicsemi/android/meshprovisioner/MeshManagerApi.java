@@ -131,6 +131,8 @@ public class MeshManagerApi implements MeshMngrApi {
     private int mOutgoingBufferOffset;
     private MeshNetwork mMeshNetwork;
     private Gson mGson;
+    public static Context context;
+
 
     private MeshNetworkDb mMeshNetworkDb;
     private MeshNetworkDao mMeshNetworkDao;
@@ -162,6 +164,7 @@ public class MeshManagerApi implements MeshMngrApi {
      */
     public MeshManagerApi(@NonNull final Context context) {
         this.mContext = context;
+        MeshManagerApi.context = context;
         mHanlder = new Handler();
         mMeshProvisioningHandler = new MeshProvisioningHandler(context, internalTransportCallbacks, internalMeshMgrCallbacks);
         mMeshMessageHandler = new MeshMessageHandler(context, internalTransportCallbacks);
