@@ -145,6 +145,26 @@ public class ApplicationMessageOpCodes {
     public static final int LIGHT_LIGHTNESS_STATUS = 0x824E;
 
     /**
+     * Opcode for the "Light Lightness Default Get" message
+     */
+    public static final int LIGHT_LIGHTNESS_DEFAULT_GET = 0x8255;
+
+    /**
+     * Opcode for the "Light Lightness Default Set" message
+     */
+    public static final int LIGHT_LIGHTNESS_DEFAULT_SET = 0x8259;
+
+    /**
+     * Opcode for the "Light Lightness Default Set Unacknowledged" message
+     */
+    public static final int LIGHT_LIGHTNESS_DEFAULT_SET_UNACKNOWLEDGED = 0x825A;
+
+    /**
+     * Opcode for the "Light Lightness Default Status" message
+     */
+    public static final int LIGHT_LIGHTNESS_DEFAULT_STATUS = 0x8256;
+
+    /**
      * Opcode for the "Light Ctl Get" message
      */
     public static final int LIGHT_CTL_GET = 0x825D;
@@ -165,6 +185,26 @@ public class ApplicationMessageOpCodes {
     public static final int LIGHT_CTL_STATUS = 0x8260;
 
     /**
+     * Opcode for the "Light Ctl Default Get" message
+     */
+    public static final int LIGHT_CTL_DEFAULT_GET = 0x8267;
+
+    /**
+     * Opcode for the "Light Ctl Default Set" message
+     */
+    public static final int LIGHT_CTL_DEFAULT_SET = 0x8269;
+
+    /**
+     * Opcode for the "Light Ctl Default Set Unacknowledged" message
+     */
+    public static final int LIGHT_CTL_DEFAULT_SET_UNACKNOWLEDGED = 0x826A;
+
+    /**
+     * Opcode for the "Light Ctl Default Status" message
+     */
+    public static final int LIGHT_CTL_DEFAULT_STATUS = 0x8268;
+
+    /**
      * Opcode for the "Light Hsl Get" message
      */
     public static final int LIGHT_HSL_GET = 0x826D;
@@ -183,6 +223,26 @@ public class ApplicationMessageOpCodes {
      * Opcode for the "Light Hsl Status" message
      */
     public static final int LIGHT_HSL_STATUS = 0x8278;
+
+    /**
+     * Opcode for the "Light Hsl Default Get" message
+     */
+    public static final int LIGHT_HSL_DEFAULT_GET = 0x827B;
+
+    /**
+     * Opcode for the "Light Hsl Default Set" message
+     */
+    public static final int LIGHT_HSL_DEFAULT_SET = 0x827F;
+
+    /**
+     * Opcode for the "Light Hsl Default Set Unacknowledged" message
+     */
+    public static final int LIGHT_HSL_DEFAULT_SET_UNACKNOWLEDGED = 0x8280;
+
+    /**
+     * Opcode for the "Light Hsl Default Status" message
+     */
+    public static final int LIGHT_HSL_DEFAULT_STATUS = 0x827C;
 
     /**
      * Opcode for the "Scene Status" message

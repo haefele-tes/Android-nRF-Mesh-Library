@@ -205,6 +205,18 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     final LightHslStatus lightHslStatus = new LightHslStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(lightHslStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), lightHslStatus);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.LIGHT_LIGHTNESS_DEFAULT_STATUS) {
+                    final LightLightnessDefaultStatus lightLightnessDefaultStatus = new LightLightnessDefaultStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(lightLightnessDefaultStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), lightLightnessDefaultStatus);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.LIGHT_CTL_DEFAULT_STATUS) {
+                    final LightCtlDefaultStatus lightCtlDefaultStatus = new LightCtlDefaultStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(lightCtlDefaultStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), lightCtlDefaultStatus);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.LIGHT_HSL_DEFAULT_STATUS) {
+                    final LightHslDefaultStatus lightHslDefaultStatus = new LightHslDefaultStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(lightHslDefaultStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), lightHslDefaultStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.SCENE_REGISTER_STATUS) {
                     final SceneRegisterStatus registerStatus = new SceneRegisterStatus(message);
                     registerStatus.parseStatusParameters();
