@@ -12,10 +12,13 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class for de-serializing a list of elements stored in the Mesh Configuration Database
@@ -23,7 +26,7 @@ import java.util.Map;
 public final class InternalElementListDeserializer implements JsonSerializer<List<Element>>, JsonDeserializer<List<Element>>, Type {
     @Override
     public List<Element> deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
-        final List<Element> elements = new ArrayList<>();
+        HashMap<Integer, Element> unorderedElements = new HashMap<Integer, Element>();
         if(json.isJsonArray()) {
             final JsonArray jsonArray = json.getAsJsonArray();
             for (int i = 0; i < jsonArray.size(); i++) {
@@ -33,8 +36,20 @@ public final class InternalElementListDeserializer implements JsonSerializer<Lis
                 final List<MeshModel> models = deserializeModels(context, jsonObject);
                 final Element element = new Element(location, populateModels(models));
 
-                elements.add(element);
+                unorderedElements.put(index, element);
             }
+        }
+        final List<Element> elements = sortElements(unorderedElements);
+        return elements;
+    }
+
+    private List<Element> sortElements(final HashMap<Integer, Element> unorderedElements) {
+        final Set<Integer> unorderedKeys = unorderedElements.keySet();
+        final List<Element> elements = new ArrayList<>();
+        final ArrayList<Integer> orderedKeys = new ArrayList<>(unorderedKeys);
+        Collections.sort(orderedKeys);
+        for (int key : orderedKeys) {
+            elements.add(unorderedElements.get(key));
         }
         return elements;
     }
