@@ -69,8 +69,7 @@ public final class ConfigRelaySet extends ConfigMessage {
 
     @Override
     final void assembleMessageParameters() {
-        mParameters = new byte[]{(byte) mRelay,
-                (byte) (((mRelayRetransmitCount << 3) & 0xFF) | (mRelayRetransmitIntervalSteps & 0xFF))};
+        mParameters = new byte[]{(byte) mRelay, (byte) ((mRelayRetransmitCount & 0x07) | ((mRelayRetransmitIntervalSteps << 3) & 0xFF))};
     }
 
     @Override
