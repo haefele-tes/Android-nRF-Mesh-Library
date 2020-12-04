@@ -52,7 +52,7 @@ import no.nordicsemi.android.meshprovisioner.utils.StaticOOBType;
 
 class MeshProvisioningHandler implements InternalProvisioningCallbacks {
 
-    static final int ATTENTION_TIMER = 5; //seconds
+    static final int ATTENTION_TIMER = 0; //seconds
     private final InternalTransportCallbacks mInternalTransportCallbacks;
     private final Context mContext;
     private MeshProvisioningStatusCallbacks mStatusCallbacks;
