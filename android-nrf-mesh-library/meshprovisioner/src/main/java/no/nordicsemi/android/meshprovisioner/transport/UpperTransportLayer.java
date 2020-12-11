@@ -243,8 +243,12 @@ abstract class UpperTransportLayer extends AccessLayer {
         final byte[] nonce;
         if (APPLICATION_KEY_IDENTIFIER == accessMessage.getAkf()) {
             key = mMeshNode.getDeviceKey();
+            Log.v(TAG, "Decrypt with device key: " + MeshParserUtils.bytesToHex(key, false));
+
             //If its a device key that was used to encrypt the message we need to create a device nonce to decrypt it
             nonce = createDeviceNonce(accessMessage.getAszmic(), accessMessage.getSequenceNumber(), accessMessage.getSrc(), accessMessage.getDst(), accessMessage.getIvIndex());
+            Log.v(TAG, "Decrypt with nonce: " + MeshParserUtils.bytesToHex(nonce, false));
+
         } else {
             key = mUpperTransportLayerCallbacks.getApplicationKey(accessMessage.getAid());
             if (key == null)

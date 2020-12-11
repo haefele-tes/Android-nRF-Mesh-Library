@@ -1,6 +1,8 @@
 package no.nordicsemi.android.meshprovisioner;
 
 
+import android.util.Log;
+
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
@@ -394,6 +396,57 @@ abstract class BaseMeshNetwork {
         } else {
             return false;
         }
+    }
+
+    public int nextAvailableUnicastAddress(final int elementCount, @NonNull final Provisioner provisioner) throws IllegalArgumentException {
+        if (provisioner.getAllocatedUnicastRanges().isEmpty()) {
+            throw new IllegalArgumentException("Please allocate a unicast address range to the provisioner");
+        }
+
+        Collections.sort(nodes, (node1, node2) ->
+                Integer.compare(node1.getUnicastAddress(), node2.getUnicastAddress()));
+        // Iterate through all nodes just once, while iterating over ranges.
+        int index = 0;
+        for (AllocatedUnicastRange range : provisioner.getAllocatedUnicastRanges()) {
+            // Start from the beginning of the current range.
+            int address = range.getLowAddress();
+
+            // FIX: iOS export 0 as low which is invalid, so fix it here
+            if (address == 0) address = 1;
+
+            // Iterate through nodes that weren't checked yet.
+            int currentIndex = index;
+            for (int i = currentIndex; i < nodes.size(); i++) {
+                final ProvisionedMeshNode node = nodes.get(i);
+                index += i;
+                final int lastUnicastInNode = node.getLastUnicastAddress();
+
+                // Skip nodes with addresses below the range.
+                if (address > lastUnicastInNode) {
+                    continue;
+                }
+
+                // If we found a space before the current node, return the address.
+                if (node.getUnicastAddress() > address + (elementCount - 1)) {
+                    return address;
+                }
+
+                // Else, move the address to the next available address.
+                address = lastUnicastInNode + 1;
+
+                // If the new address is outside of the range, go to the next one.
+                if (range.getHighAddress() < address + (elementCount - 1)) {
+                    break;
+                }
+            }
+
+            if (range.getHighAddress() >= address + (elementCount - 1)) {
+                return address;
+            }
+        }
+
+        // No address was found :(
+        return -1;
     }
 
     /**

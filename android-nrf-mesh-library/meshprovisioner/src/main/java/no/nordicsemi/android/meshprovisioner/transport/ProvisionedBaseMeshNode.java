@@ -264,6 +264,21 @@ abstract class ProvisionedBaseMeshNode implements Parcelable {
         return unicastAddress;
     }
 
+    /**
+     * Returns the number of elements in the node
+     */
+    public int getNumberOfElements() {
+        return mElements.size();
+    }
+
+    /**
+     * Returns the unicast address used by the last element in the node
+     */
+    public int getLastUnicastAddress() {
+        final int elementCount = getNumberOfElements();
+        return elementCount == 1 ? unicastAddress : (unicastAddress + (elementCount - 1));
+    }
+
     public final void setUnicastAddress(final int unicastAddress) {
         this.unicastAddress = unicastAddress;
     }

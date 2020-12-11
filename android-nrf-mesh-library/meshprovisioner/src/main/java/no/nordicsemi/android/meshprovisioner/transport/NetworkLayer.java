@@ -430,12 +430,11 @@ public abstract class NetworkLayer extends LowerTransportLayer {
         final int micLength = SecureUtils.getNetMicLength(ctl);
         final byte[] sequenceNumber = ByteBuffer.allocate(3).order(ByteOrder.BIG_ENDIAN).put(networkHeader, 1, 3).array();
         final int src = MeshParserUtils.unsignedBytesToInt(networkHeader[5], networkHeader[4]);
-        if (mMeshNode == null || mMeshNode.getUnicastAddress() != src) {
-            mMeshNode = mNetworkLayerCallbacks.getProvisionedNode(src);
-            if (mMeshNode == null) {
-                return null;
-            }
+        mMeshNode = mNetworkLayerCallbacks.getProvisionedNode(src);
+        if (mMeshNode == null) {
+            return null;
         }
+
 
         //Check if the sequence number has been incremented since the last message sent and return null if not
         final int sequenceNo = MeshParserUtils.getSequenceNumber(sequenceNumber);
