@@ -50,6 +50,16 @@ public class ApplicationMessageOpCodes {
     public static final int GENERIC_ON_OFF_SET_UNACKNOWLEDGED = 0x8203;
 
     /**
+     * Opcode for the "Generic Move Set" message.
+     */
+    public static final int GENERIC_MOVE_SET = 0x820B;
+
+    /**
+     * Opcode for the "Generic Move Set Unacknowledged" message.
+     */
+    public static final int GENERIC_MOVE_SET_UNACKNOWLEDGED = 0x820C;
+
+    /**
      * Opcode for the "Generic OnOff Status" message.
      */
     public static final int GENERIC_ON_OFF_STATUS = 0x8204;

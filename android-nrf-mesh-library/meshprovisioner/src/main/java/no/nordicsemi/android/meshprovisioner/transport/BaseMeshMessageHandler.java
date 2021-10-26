@@ -188,6 +188,14 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     final GenericLevelSetUnacknowledgedState levelSetUnacknowledgedState = (GenericLevelSetUnacknowledgedState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, levelSetUnacknowledgedState.getMeshMessage(), mMeshTransport, this));
                     break;
+                case GENERIC_MOVE_SET_STATE:
+                    final GenericMoveSetState moveSetState = (GenericMoveSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, moveSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case GENERIC_MOVE_SET_UNACKNOWLEDGED_STATE:
+                    final GenericMoveSetUnacknowledgedState moveSetUnacknowledgedState = (GenericMoveSetUnacknowledgedState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, moveSetUnacknowledgedState.getMeshMessage(), mMeshTransport, this));
+                    break;
                  case GENERIC_ON_POWER_UP_GET_STATE: {
                      final GenericOnPowerUpGetState state = (GenericOnPowerUpGetState) mMeshMessageState;
                      switchToNoOperationState(new DefaultNoOperationMessageState(mContext, state.getMeshMessage(), mMeshTransport, this));
@@ -641,7 +649,22 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             genericLevelSetUnackedState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = genericLevelSetUnackedState;
             genericLevelSetUnackedState.executeSend();
-        } else if (genericMessage instanceof LightLightnessGet) {
+        }
+        else if (genericMessage instanceof GenericMoveSet) {
+            final GenericMoveSetState genericMoveSetState = new GenericMoveSetState(mContext, src, dst, (GenericMoveSet) genericMessage, mMeshTransport, this);
+            genericMoveSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericMoveSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericMoveSetState;
+            genericMoveSetState.executeSend();
+        } else if (genericMessage instanceof GenericMoveSetUnacknowledged) {
+            final GenericMoveSetUnacknowledgedState genericMoveSetUnackedState = new GenericMoveSetUnacknowledgedState(mContext, src,
+                    dst, (GenericMoveSetUnacknowledged) genericMessage, mMeshTransport, this);
+            genericMoveSetUnackedState.setTransportCallbacks(mInternalTransportCallbacks);
+            genericMoveSetUnackedState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = genericMoveSetUnackedState;
+            genericMoveSetUnackedState.executeSend();
+        }
+        else if (genericMessage instanceof LightLightnessGet) {
             final LightLightnessGetState lightLightnessGetState = new LightLightnessGetState(mContext, src, dst, (LightLightnessGet) genericMessage, mMeshTransport, this);
             lightLightnessGetState.setTransportCallbacks(mInternalTransportCallbacks);
             lightLightnessGetState.setStatusCallbacks(mStatusCallbacks);
