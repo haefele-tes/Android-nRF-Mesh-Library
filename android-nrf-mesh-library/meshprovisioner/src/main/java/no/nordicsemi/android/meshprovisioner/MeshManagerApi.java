@@ -365,9 +365,26 @@ public class MeshManagerApi implements MeshMngrApi {
                 final byte[] flags = {(byte) mMeshNetwork.getProvisioningFlags()};
                 final byte[] networkId = SecureUtils.calculateK3(n);
                 final byte[] ivIndex = ByteBuffer.allocate(4).putInt(mMeshNetwork.getIvIndex()).array();
-                Log.v(TAG, "Generated mesh beacon: " +
-                        MeshParserUtils.bytesToHex(SecureUtils.calculateSecureNetworkBeacon(n, 1, flags, networkId, ivIndex), true));
-                Log.v(TAG, "Received mesh beacon: " + MeshParserUtils.bytesToHex(unsegmentedPdu, true));
+                final byte[] localBeaconData = SecureUtils.calculateSecureNetworkBeacon(n, 1, flags, networkId, ivIndex);
+
+
+                final byte[] receivedBeaconData = new byte[unsegmentedPdu.length - 1];
+                System.arraycopy(unsegmentedPdu, 1, receivedBeaconData, 0, receivedBeaconData.length);
+
+                SecureNetworkBeacon localSecureNetworkBeacon = new SecureNetworkBeacon(localBeaconData);
+                SecureNetworkBeacon receivedBeacon = new SecureNetworkBeacon(receivedBeaconData);
+                Log.v(TAG, "Generated mesh beacon: " + MeshParserUtils.bytesToHex(localBeaconData, true) + " with index: " + localSecureNetworkBeacon.getIvIndex() + " with network id: " + MeshParserUtils.bytesToHex(localSecureNetworkBeacon.getNetworkId(), false));
+                Log.v(TAG, "Received mesh beacon: " + MeshParserUtils.bytesToHex(receivedBeaconData, true) + " with index: " + receivedBeacon.getIvIndex() + " with network id: " + MeshParserUtils.bytesToHex(receivedBeacon.getNetworkId(), false));
+                if (receivedBeacon.authenticate(n)) {
+                    Log.v(TAG, "Authentication matches");
+                    // TODO: also check if update is progress reset seq number if
+                    if (receivedBeacon.getIvIndex().getIvIndex() > mMeshNetwork.getIvIndex()) {
+                        Log.v(TAG, "Should override network ivindex");
+                        mMeshNetwork.setIvIndex(receivedBeacon.getIvIndex().getIvIndex());
+                    }
+                } else {
+                    Log.v(TAG, "Authentication does not match: " + MeshParserUtils.bytesToHex(localSecureNetworkBeacon.getAuthenticationValue(), true) + " != " + MeshParserUtils.bytesToHex(receivedBeacon.getAuthenticationValue(), true));
+                }
                 break;
             case PDU_TYPE_PROXY_CONFIGURATION:
                 //Proxy configuration

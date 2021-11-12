@@ -40,11 +40,13 @@ import org.spongycastle.crypto.modes.CCMBlockCipher;
 import org.spongycastle.crypto.params.AEADParameters;
 import org.spongycastle.crypto.params.KeyParameter;
 
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.util.Arrays;
 
 @SuppressWarnings("WeakerAccess")
 public class SecureUtils {
@@ -317,6 +319,15 @@ public class SecureUtils {
         pBuffer.put(ivIndex);
         final byte[] beaconKey = calculateBeaconKey(n);
         return calculateCMAC(pBuffer.array(), beaconKey);
+    }
+
+    public static boolean authenticateSecureNetBeacon(@NonNull final byte[] flagsNetworkIdAndIVIndex, @NonNull final byte[]authValue, @NonNull final byte[] n){
+        final byte[] beaconKey = calculateBeaconKey(n);
+        final byte[] hash = calculateCMAC(flagsNetworkIdAndIVIndex, beaconKey);
+        ByteBuffer hashByte = ByteBuffer.wrap(hash);
+        final byte[] calcAuthValue = new byte[8];
+        hashByte.get(calcAuthValue, 0, 8);
+        return Arrays.equals(calcAuthValue, authValue);
     }
 
     /**

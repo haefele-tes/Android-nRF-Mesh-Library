@@ -11,8 +11,8 @@ public abstract class MeshBeacon implements Parcelable {
 
     private static final String TAG = MeshBeacon.class.getSimpleName();
     static final int MESH_BEACON = 0x2B;
-    final byte[] beaconData;
-    final int beaconType;
+    public final byte[] beaconData;
+    public final int beaconType;
 
 
     /**
@@ -22,7 +22,7 @@ public abstract class MeshBeacon implements Parcelable {
      * @throws IllegalArgumentException if beacon data provided is empty or null
      */
     @SuppressWarnings("ConstantConditions")
-    MeshBeacon(@NonNull final byte[] beaconData) {
+    public MeshBeacon(@NonNull final byte[] beaconData) {
         if (beaconData == null)
             throw new IllegalArgumentException("Invalid beacon data");
         this.beaconData = beaconData;
