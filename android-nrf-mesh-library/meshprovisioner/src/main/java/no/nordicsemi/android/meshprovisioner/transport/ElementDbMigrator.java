@@ -27,12 +27,22 @@ public final class ElementDbMigrator implements JsonDeserializer<Element>, Type 
             final JsonArray elementAddress = jsonElement.get("elementAddress").getAsJsonArray();
             if (elementAddress != null) {
                 address = MeshParserUtils.unsignedBytesToInt(elementAddress.get(1).getAsByte(), elementAddress.get(0).getAsByte());
-                final int location = Integer.parseInt(jsonElement.get("locationDescriptor").getAsString(), 16);
+                int location = 0;
+                try {
+                    location = Integer.parseInt(jsonElement.get("locationDescriptor").getAsString(), 16);
+                } catch (Exception e) {
+                    // noop
+                }
                 return new Element(address, location, deserializeModels(context, jsonElement));
             }
         } else {
             address = jsonElement.get("elementAddress").getAsInt();
-            final int location = Integer.parseInt(jsonElement.get("locationDescriptor").getAsString(), 16);
+            int location = 0;
+            try {
+                location = Integer.parseInt(jsonElement.get("locationDescriptor").getAsString(), 16);
+            } catch (Exception e) {
+                // noop
+            }
             return new Element(address, location, deserializeModels(context, jsonElement));
         }
         return null;
