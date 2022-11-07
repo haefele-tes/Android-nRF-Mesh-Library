@@ -71,6 +71,9 @@ class DefaultNoOperationMessageState extends MeshMessageState {
         final byte[] accessPayload = message.getAccessPdu();
         final ProvisionedMeshNode node = mInternalTransportCallbacks.getProvisionedNode(message.getSrc());
         final int opCodeLength = ((accessPayload[0] & 0xF0) >> 6);
+
+        Log.v(TAG, "parsing access message: " + MeshParserUtils.bytesToHex(accessPayload, true));
+
         //OpCode length
         switch (opCodeLength) {
             case 0:

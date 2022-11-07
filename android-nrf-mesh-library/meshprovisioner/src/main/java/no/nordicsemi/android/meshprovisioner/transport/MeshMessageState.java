@@ -95,8 +95,11 @@ abstract class MeshMessageState implements LowerTransportLayerCallbacks {
      * Starts sending the mesh pdu
      */
     public void executeSend() {
-        if (message.getNetworkPdu().size() > 0) {
-            for (int i = 0; i < message.getNetworkPdu().size(); i++) {
+        int messageCount = message.getNetworkPdu().size();
+        Log.v(TAG, "Execute send with " + messageCount);
+        if (messageCount > 0) {
+            for (int i = 0; i < messageCount; i++) {
+                Log.v(TAG, "Sending " + i + 1 + "/" + messageCount);
                 mInternalTransportCallbacks.sendMeshPdu(mDst, message.getNetworkPdu().get(i));
             }
         }

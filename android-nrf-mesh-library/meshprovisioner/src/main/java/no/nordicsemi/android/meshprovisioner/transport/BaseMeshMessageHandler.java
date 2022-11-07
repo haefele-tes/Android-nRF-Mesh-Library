@@ -73,8 +73,10 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     break;
             }
         } else if (mMeshMessageState instanceof ConfigMessageState) {
-            if (mMeshMessageState.getState() == null)
+            if (mMeshMessageState.getState() == null) {
+                Log.d(TAG, "state is null");
                 return;
+            }
 
             switch (mMeshMessageState.getState()) {
                 case COMPOSITION_DATA_GET_STATE:
@@ -338,6 +340,8 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
     public final void parseMeshMsgNotifications(final byte[] pdu) {
         if (mMeshMessageState instanceof DefaultNoOperationMessageState) {
             ((DefaultNoOperationMessageState) mMeshMessageState).parseMeshPdu(pdu);
+        } else {
+            Log.v(TAG, "Dropping mesh message because of missing state.");
         }
     }
 

@@ -445,10 +445,16 @@ public class MeshManagerApi implements MeshMngrApi {
 
     private boolean shouldWaitForMoreData(final byte[] pdu) {
         final int gattSar = (pdu[0] & GATT_SAR_MASK) >> SAR_BIT_OFFSET;
+        Log.v(TAG, "should wait for more data" + MeshParserUtils.bytesToHex(pdu, false));
         switch (gattSar) {
             case GATT_SAR_START:
+                Log.v(TAG, "should wait for more data: GATT_SAR_START");
+                return true;
             case GATT_SAR_CONTINUATION:
+                Log.v(TAG, "should wait for more data: GATT_SAR_CONTINUATION");
+                return true;
             case GATT_SAR_END:
+                Log.v(TAG, "should wait for more data: GATT_SAR_END");
                 return true;
             default:
                 return false;
@@ -463,6 +469,7 @@ public class MeshManagerApi implements MeshMngrApi {
      * @return the combine pdu or returns null if not complete.
      */
     private byte[] appendPdu(final int mtuSize, final byte[] pdu) {
+        Log.v(TAG, "appendPdu (" + mtuSize + "): " + MeshParserUtils.bytesToHex(pdu, false));
         if (mIncomingBuffer == null) {
             final int length = Math.min(pdu.length, mtuSize);
             mIncomingBufferOffset = 0;
@@ -505,7 +512,7 @@ public class MeshManagerApi implements MeshMngrApi {
             mOutgoingBufferOffset += length;
             mOutgoingBuffer = buffer;
             if (length < mtuSize) {
-                final byte packet[] = mOutgoingBuffer;
+                final byte[] packet = mOutgoingBuffer;
                 mOutgoingBuffer = null;
                 return packet;
             }
@@ -539,6 +546,8 @@ public class MeshManagerApi implements MeshMngrApi {
                 srcOffset += length;
                 dstOffset += mtuSize;
             }
+            Log.v(TAG, "apply segmentation input: " + MeshParserUtils.bytesToHex(pdu, false));
+            Log.v(TAG, "apply segmentation output: " + MeshParserUtils.bytesToHex(segmentedBuffer, false));
             return segmentedBuffer;
         }
         return pdu;
@@ -924,6 +933,7 @@ public class MeshManagerApi implements MeshMngrApi {
             final ProvisionedMeshNode meshNode = mMeshNetwork.getProvisionedNode(dst);
             updateNetwork(meshNode);
             final int mtu = mTransportCallbacks.getMtu();
+            Log.v(TAG, "Send mesh pdu to " + dst + ": " + MeshParserUtils.bytesToHex(pdu, false));
             mTransportCallbacks.sendMeshPdu(applySegmentation(mtu, pdu));
         }
 
