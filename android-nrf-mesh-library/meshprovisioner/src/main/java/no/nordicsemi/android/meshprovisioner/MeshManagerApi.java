@@ -404,12 +404,7 @@ public class MeshManagerApi implements MeshMngrApi {
         if (!shouldWaitForMoreData(data)) {
             unsegmentedPdu = data;
         } else {
-            final byte[] combinedPdu = appendWritePdu(mtuSize, data);
-            if (combinedPdu == null)
-                return;
-            else {
-                unsegmentedPdu = removeSegmentation(mtuSize, combinedPdu);
-            }
+            unsegmentedPdu = removeSegmentation(mtuSize, data);
         }
         handleWriteCallbacks(unsegmentedPdu);
     }
