@@ -298,7 +298,7 @@ abstract class LowerTransportLayer extends UpperTransportLayer {
             offset += length;
 
             final byte[] lowerTransportPDU = lowerTransportBuffer.array();
-            Log.v(TAG, "Segmented Lower transport access PDU: " + MeshParserUtils.bytesToHex(lowerTransportPDU, false) + " " + segO + " of " + numberOfSegments);
+            Log.v(TAG, "Segmented Lower transport access PDU: " + MeshParserUtils.bytesToHex(lowerTransportPDU, false) + " " + (segO + 1) + " of " + numberOfSegments);
             lowerTransportPduMap.put(segO, lowerTransportPDU);
         }
         return lowerTransportPduMap;
@@ -367,7 +367,7 @@ abstract class LowerTransportLayer extends UpperTransportLayer {
             offset += length;
 
             final byte[] lowerTransportPDU = lowerTransportBuffer.array();
-            Log.v(TAG, "Segmented Lower transport access PDU: " + MeshParserUtils.bytesToHex(lowerTransportPDU, false) + " " + segO + " of " + numberOfSegments);
+            Log.v(TAG, "Segmented Lower transport access PDU: " + MeshParserUtils.bytesToHex(lowerTransportPDU, false) + " " + (segO + 1) + " of " + numberOfSegments);
             lowerTransportControlPduMap.put(segO, lowerTransportPDU);
         }
         controlMessage.setLowerTransportControlPdu(lowerTransportControlPduMap);

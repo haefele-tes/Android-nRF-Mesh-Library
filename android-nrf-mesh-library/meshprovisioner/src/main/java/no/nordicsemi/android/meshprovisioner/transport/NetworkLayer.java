@@ -215,8 +215,7 @@ public abstract class NetworkLayer extends LowerTransportLayer {
                     .put(header)
                     .put(encryptedNetworkPayload)
                     .array();
-            networkPduMap.put(segment, networkPdu);
-            message.setNetworkPdu(networkPduMap);
+            message.getNetworkPdu().put(segment, networkPdu);
             return message;
         } else {
             return null;
