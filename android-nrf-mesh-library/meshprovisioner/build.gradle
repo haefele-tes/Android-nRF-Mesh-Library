@@ -20,10 +20,11 @@
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 33
-    group'no.nordicsemi.android.meshprovisioner'
+    group 'no.nordicsemi.android.meshprovisioner'
 
     defaultConfig {
         minSdkVersion 21
@@ -75,4 +76,20 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'no.nordicsemi.android.meshprovisioner'
+                artifactId = 'meshprovisioner'
+                version = 'v1.1.0-1'
+            }
+        }
+    }
 }
