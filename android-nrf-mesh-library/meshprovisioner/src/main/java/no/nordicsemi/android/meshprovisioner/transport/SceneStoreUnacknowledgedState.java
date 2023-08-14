@@ -76,7 +76,7 @@ class SceneStoreUnacknowledgedState extends GenericMessageState implements Lower
 
     @Override
     public final void executeSend() {
-        Log.v(TAG, "Sending Scene Store acknowledged");
+        Log.v(TAG, "Sending Scene Store unacknowledged");
         super.executeSend();
         if (message.getNetworkPdu().size() > 0) {
             if (mMeshStatusCallbacks != null) {

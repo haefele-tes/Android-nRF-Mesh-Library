@@ -325,6 +325,50 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     final SceneDeleteUnacknowledgedState sceneDeleteUnacknowledgedState = (SceneDeleteUnacknowledgedState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, sceneDeleteUnacknowledgedState.getMeshMessage(), mMeshTransport, this));
                     break;
+                case TIME_GET_STATE:
+                    final TimeGetState timeGetState = (TimeGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, timeGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TIME_SET_STATE:
+                    final TimeSetState timeSetState = (TimeSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, timeSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TIME_ZONE_GET_STATE:
+                    final TimezoneGetState timezoneGetState = (TimezoneGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, timezoneGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TIME_ZONE_SET_STATE:
+                    final TimezoneSetState timezoneSetState = (TimezoneSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, timezoneSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TIME_ROLE_GET_STATE:
+                    final TimeRoleGetState timeRoleGetState = (TimeRoleGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, timeRoleGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TIME_ROLE_SET_STATE:
+                    final TimeRoleSetState timeRoleSetState = (TimeRoleSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, timeRoleSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TAI_UTC_GET_STATE:
+                    final TaiUtcDeltaGetState taiUtcDeltaGetState = (TaiUtcDeltaGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, taiUtcDeltaGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case TAI_UTC_SET_STATE:
+                    final TaiUtcDeltaSetState taiUtcDeltaSetState = (TaiUtcDeltaSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, taiUtcDeltaSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case SCHEDULER_GET_STATE:
+                    final SchedulerGetState schedulerGetState = (SchedulerGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, schedulerGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case SCHEDULER_ACTION_GET_STATE:
+                    final SchedulerActionGetState schedulerActionGetState = (SchedulerActionGetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, schedulerActionGetState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case SCHEDULER_ACTION_SET_STATE:
+                    final SchedulerActionSetState schedulerActionSetState = (SchedulerActionSetState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, schedulerActionSetState.getMeshMessage(), mMeshTransport, this));
+                    break;
             }
         }
     }
@@ -846,7 +890,81 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             sceneRecallUnacknowledgedState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = sceneRecallUnacknowledgedState;
             sceneRecallUnacknowledgedState.executeSend();
-        } else {
+        } else if (genericMessage instanceof TimeGet) {
+            final TimeGetState timeGetState = new TimeGetState(mContext, src, dst, (TimeGet) genericMessage, mMeshTransport, this);
+            timeGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            timeGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = timeGetState;
+            timeGetState.executeSend();
+        } else if (genericMessage instanceof TimeSet) {
+            final TimeSetState timeSetState = new TimeSetState(mContext, src, dst, (TimeSet) genericMessage, mMeshTransport, this);
+            timeSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            timeSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = timeSetState;
+            timeSetState.executeSend();
+        } else if (genericMessage instanceof TimezoneGet) {
+            final TimezoneGetState timezoneGetState = new TimezoneGetState(mContext, src, dst, (TimezoneGet) genericMessage, mMeshTransport, this);
+            timezoneGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            timezoneGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = timezoneGetState;
+            timezoneGetState.executeSend();
+        } else if (genericMessage instanceof TimezoneSet) {
+            final TimezoneSetState timezoneSetState = new TimezoneSetState(mContext, src, dst, (TimezoneSet) genericMessage, mMeshTransport, this);
+            timezoneSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            timezoneSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = timezoneSetState;
+            timezoneSetState.executeSend();
+        } else if (genericMessage instanceof TimeRoleGet) {
+            final TimeRoleGetState timeRoleGetState = new TimeRoleGetState(mContext, src, dst, (TimeRoleGet) genericMessage, mMeshTransport, this);
+            timeRoleGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            timeRoleGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = timeRoleGetState;
+            timeRoleGetState.executeSend();
+        } else if (genericMessage instanceof TimeRoleSet) {
+            final TimeRoleSetState timeRoleSetState = new TimeRoleSetState(mContext, src, dst, (TimeRoleSet) genericMessage, mMeshTransport, this);
+            timeRoleSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            timeRoleSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = timeRoleSetState;
+            timeRoleSetState.executeSend();
+        } else if (genericMessage instanceof TaiUtcDeltaGet) {
+            final TaiUtcDeltaGetState taiUtcDeltaGetState = new TaiUtcDeltaGetState(mContext, src, dst, (TaiUtcDeltaGet) genericMessage, mMeshTransport, this);
+            taiUtcDeltaGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            taiUtcDeltaGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = taiUtcDeltaGetState;
+            taiUtcDeltaGetState.executeSend();
+        } else if (genericMessage instanceof TaiUtcDeltaSet) {
+            final TaiUtcDeltaSetState taiUtcDeltaSetState = new TaiUtcDeltaSetState(mContext, src, dst, (TaiUtcDeltaSet) genericMessage, mMeshTransport, this);
+            taiUtcDeltaSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            taiUtcDeltaSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = taiUtcDeltaSetState;
+            taiUtcDeltaSetState.executeSend();
+        } else if (genericMessage instanceof SchedulerGet) {
+            final SchedulerGetState schedulerGetState = new SchedulerGetState(mContext, src, dst, (SchedulerGet) genericMessage, mMeshTransport, this);
+            schedulerGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            schedulerGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = schedulerGetState;
+            schedulerGetState.executeSend();
+        } else if (genericMessage instanceof SchedulerActionGet) {
+            final SchedulerActionGetState schedulerActionGetState = new SchedulerActionGetState(mContext, src, dst, (SchedulerActionGet) genericMessage, mMeshTransport, this);
+            schedulerActionGetState.setTransportCallbacks(mInternalTransportCallbacks);
+            schedulerActionGetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = schedulerActionGetState;
+            schedulerActionGetState.executeSend();
+        } else if (genericMessage instanceof SchedulerActionSet) {
+            final SchedulerActionSetState schedulerActionSetState = new SchedulerActionSetState(mContext, src, dst, (SchedulerActionSet) genericMessage, mMeshTransport, this);
+            schedulerActionSetState.setTransportCallbacks(mInternalTransportCallbacks);
+            schedulerActionSetState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = schedulerActionSetState;
+            schedulerActionSetState.executeSend();
+        } else if (genericMessage instanceof  SchedulerActionSetUnacknowledged) {
+            final SchedulerActionSetUnacknowledgedState schedulerActionSetUnacknowledgedStateState = new SchedulerActionSetUnacknowledgedState(mContext, src, dst, (SchedulerActionSet) genericMessage, mMeshTransport, this);
+            schedulerActionSetUnacknowledgedStateState.setTransportCallbacks(mInternalTransportCallbacks);
+            schedulerActionSetUnacknowledgedStateState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = schedulerActionSetUnacknowledgedStateState;
+            schedulerActionSetUnacknowledgedStateState.executeSend();
+        }
+        // TIMING
+         else {
             //TODO
         }
     }

@@ -304,4 +304,24 @@ public class ApplicationMessageOpCodes {
      */
     public static final int SCENE_DELETE_UNACKNOWLEDGED = 0x829F;
 
+    public static final int SCHEDULER_ACTION_GET = 0x8249;
+    public static final int SCHEDULER_ACTION_STATUS = 0x5F;
+    public static final int SCHEDULER_GET = 0x8248;
+    public static final int SCHEDULER_STATUS = 0x824A;
+    public static final int SCHEDULER_ACTION_SET = 0x60;
+    public static final int SCHEDULER_ACTION_SET_UNACKNOWLEDGED = 0x61;
+
+    public static final int TAI_UTC_DELTA_GET = 0x823E;
+    public static final int TAI_UTC_DELTA_SET = 0x823F;
+    public static final int TAI_UTC_DELTA_STATUS = 0x8240;
+
+    public static final int TIME_GET = 0x8237;
+    public static final int TIME_SET = 0x5C;
+    public static final int TIME_STATUS = 0x5D;
+    public static final int TIME_ROLE_GET = 0x8238;
+    public static final int TIME_ROLE_SET = 0x8239;
+    public static final int TIME_ROLE_STATUS = 0x823A;
+    public static final int TIME_ZONE_GET = 0x823B;
+    public static final int TIME_ZONE_SET = 0x823C;
+    public static final int TIME_ZONE_STATUS = 0x823D;
 }
