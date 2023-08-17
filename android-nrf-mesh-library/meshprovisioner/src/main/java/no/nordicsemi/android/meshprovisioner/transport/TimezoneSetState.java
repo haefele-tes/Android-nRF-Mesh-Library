@@ -79,7 +79,7 @@ class TimezoneSetState extends GenericMessageState {
 
     @Override
     public void executeSend() {
-        Log.v(TAG, "Sending time set");
+        Log.v(TAG, "Sending timezone set");
         super.executeSend();
 
         if (message.getNetworkPdu().size() > 0) {

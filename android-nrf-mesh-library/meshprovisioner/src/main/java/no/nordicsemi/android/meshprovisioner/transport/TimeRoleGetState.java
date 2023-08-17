@@ -77,7 +77,7 @@ class TimeRoleGetState extends GenericMessageState {
 
     @Override
     public void executeSend() {
-        Log.v(TAG, "Sending time get");
+        Log.v(TAG, "Sending time role get");
         super.executeSend();
 
         if (message.getNetworkPdu().size() > 0) {

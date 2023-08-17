@@ -79,7 +79,7 @@ class TaiUtcDeltaSetState extends GenericMessageState {
 
     @Override
     public void executeSend() {
-        Log.v(TAG, "Sending time get");
+        Log.v(TAG, "Sending tai utc delta set");
         super.executeSend();
 
         if (message.getNetworkPdu().size() > 0) {

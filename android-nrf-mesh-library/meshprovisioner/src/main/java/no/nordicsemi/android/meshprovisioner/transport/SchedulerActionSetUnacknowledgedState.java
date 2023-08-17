@@ -78,7 +78,7 @@ class SchedulerActionSetUnacknowledgedState extends GenericMessageState {
 
     @Override
     public void executeSend() {
-        Log.v(TAG, "Sending scheduler action set");
+        Log.v(TAG, "Sending scheduler action set unack");
         super.executeSend();
 
         if (message.getNetworkPdu().size() > 0) {

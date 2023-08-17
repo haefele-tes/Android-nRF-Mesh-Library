@@ -78,7 +78,7 @@ class SchedulerGetState extends GenericMessageState {
 
     @Override
     public void executeSend() {
-        Log.v(TAG, "Sending time get");
+        Log.v(TAG, "Sending scheduler get");
         super.executeSend();
 
         if (message.getNetworkPdu().size() > 0) {

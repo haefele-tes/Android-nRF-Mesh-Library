@@ -49,6 +49,7 @@ public class SchedulerActionSet extends GenericMessage {
 
     @Override
     void assembleMessageParameters() {
+		Log.d(TAG, "Setting scheduler action at "+ index + " : "+entry.toString());
         mAid = SecureUtils.calculateK4(mAppKey);
         BitWriter bitWriter = new BitWriter(SCHEDULER_ACTION_SET_INDEX_PARAMS_LENGTH);
         entry.assembleMessageParameters(bitWriter);
