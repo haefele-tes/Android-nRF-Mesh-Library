@@ -1,4 +1,6 @@
 package no.nordicsemi.android.meshprovisioner.data;
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 public class GenericTransitionTime {
@@ -117,4 +119,11 @@ public class GenericTransitionTime {
     public int hashCode() {
         return Objects.hash(resolution, transitionStep);
     }
+
+
+	@NonNull
+	@Override
+	public String toString() {
+		return "ScheduleEntry{transitionStep="+ this.transitionStep.value + ", transitionResolution=" + this.resolution.value + "}";
+	}
 }

@@ -25,9 +25,10 @@ package no.nordicsemi.android.meshprovisioner;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -317,6 +318,7 @@ public class MeshManagerApi implements MeshMngrApi {
      */
     public final void handleNotifications(final int mtuSize, final byte[] data) {
         byte[] unsegmentedPdu;
+		Log.v(TAG, "pdu: " + MeshParserUtils.bytesToHex(data, false));
         if (!shouldWaitForMoreData(data)) {
             unsegmentedPdu = data;
         } else {
@@ -440,7 +442,6 @@ public class MeshManagerApi implements MeshMngrApi {
 
     private boolean shouldWaitForMoreData(final byte[] pdu) {
         final int gattSar = (pdu[0] & GATT_SAR_MASK) >> SAR_BIT_OFFSET;
-        Log.v(TAG, "should wait for more data" + MeshParserUtils.bytesToHex(pdu, false));
         switch (gattSar) {
             case GATT_SAR_START:
                 Log.v(TAG, "should wait for more data: GATT_SAR_START");

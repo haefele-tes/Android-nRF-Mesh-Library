@@ -1,5 +1,7 @@
 package no.nordicsemi.android.meshprovisioner.transport;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import no.nordicsemi.android.meshprovisioner.data.ScheduleEntry;
@@ -43,6 +45,7 @@ public class SchedulerActionSetUnacknowledged extends GenericMessage {
 
     @Override
     void assembleMessageParameters() {
+		Log.d(TAG, "Setting scheduler action unack at "+ index + " : "+entry.toString());
         mAid = SecureUtils.calculateK4(mAppKey);
         BitWriter bitWriter = new BitWriter(SCHEDULER_ACTION_SET_INDEX_PARAMS_LENGTH);
         entry.assembleMessageParameters(bitWriter);
