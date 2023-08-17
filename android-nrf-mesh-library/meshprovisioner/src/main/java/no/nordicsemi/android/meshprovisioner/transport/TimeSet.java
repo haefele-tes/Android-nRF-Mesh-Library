@@ -69,6 +69,5 @@ public class TimeSet extends GenericMessage {
         bitWriter.write(taiTime.getTaiSeconds(), TAI_SECONDS_BIT_SIZE);
 
         mParameters = ArrayUtils.reverseArray(bitWriter.toByteArray());
-
     }
 }
