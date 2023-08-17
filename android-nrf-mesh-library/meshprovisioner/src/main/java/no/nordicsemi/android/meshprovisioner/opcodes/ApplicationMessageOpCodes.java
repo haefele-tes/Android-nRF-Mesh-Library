@@ -304,9 +304,9 @@ public class ApplicationMessageOpCodes {
      */
     public static final int SCENE_DELETE_UNACKNOWLEDGED = 0x829F;
 
-    public static final int SCHEDULER_ACTION_GET = 0x8249;
+    public static final int SCHEDULER_ACTION_GET = 0x8248;
     public static final int SCHEDULER_ACTION_STATUS = 0x5F;
-    public static final int SCHEDULER_GET = 0x8248;
+    public static final int SCHEDULER_GET = 0x8249;
     public static final int SCHEDULER_STATUS = 0x824A;
     public static final int SCHEDULER_ACTION_SET = 0x60;
     public static final int SCHEDULER_ACTION_SET_UNACKNOWLEDGED = 0x61;
