@@ -100,12 +100,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), userPropertyStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.TIME_STATUS) {
                     final TimeStatus timeStatus = new TimeStatus(message);
-                    timeStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(timeStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), timeStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.SCHEDULER_ACTION_STATUS) {
                     final SchedulerActionStatus schedulerActionStatus = new SchedulerActionStatus(message);
-                    schedulerActionStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(schedulerActionStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), schedulerActionStatus);
                 }
@@ -233,27 +231,22 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), lightHslDefaultStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.SCENE_REGISTER_STATUS) {
                     final SceneRegisterStatus registerStatus = new SceneRegisterStatus(message);
-                    registerStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(registerStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), registerStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.TIME_ZONE_STATUS) {
                     final TimezoneStatus timezoneStatus = new TimezoneStatus(message);
-                    timezoneStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(timezoneStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), timezoneStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.TIME_ROLE_STATUS) {
                     final TimeRoleStatus timeRoleStatus = new TimeRoleStatus(message);
-                    timeRoleStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(timeRoleStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), timeRoleStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.TAI_UTC_DELTA_STATUS) {
                     final TaiUtcDeltaStatus taiUtcDeltaStatus = new TaiUtcDeltaStatus(message);
-                    taiUtcDeltaStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(taiUtcDeltaStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), taiUtcDeltaStatus);
                 } else if (message.getOpCode() == ApplicationMessageOpCodes.SCHEDULER_STATUS) {
                     final SchedulerStatus schedulerStatus = new SchedulerStatus(message);
-                    schedulerStatus.parseStatusParameters();
                     mInternalTransportCallbacks.updateMeshNetwork(schedulerStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), schedulerStatus);
                 }
