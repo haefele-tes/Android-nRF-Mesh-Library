@@ -72,6 +72,7 @@ class SceneDeleteState extends GenericMessageState implements LowerTransportLaye
         final int opCode = sceneDelete.getOpCode();
         final byte[] parameters = sceneDelete.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneDelete.setMessage(message);
     }
 
     @Override

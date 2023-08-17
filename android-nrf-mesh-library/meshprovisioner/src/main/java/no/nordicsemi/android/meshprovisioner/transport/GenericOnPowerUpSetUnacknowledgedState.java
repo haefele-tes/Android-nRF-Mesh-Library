@@ -71,6 +71,7 @@ class GenericOnPowerUpSetUnacknowledgedState extends GenericMessageState {
         final int opCode = genericOnPowerUpSetUnacknowledged.getOpCode();
         final byte[] parameters = genericOnPowerUpSetUnacknowledged.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericOnPowerUpSetUnacknowledged.setMessage(message);
     }
 
     @Override

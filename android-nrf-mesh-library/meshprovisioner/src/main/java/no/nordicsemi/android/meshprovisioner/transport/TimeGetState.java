@@ -72,6 +72,7 @@ class TimeGetState extends GenericMessageState {
         final int opCode = timeGet.getOpCode();
         final byte[] parameters = timeGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        timeGet.setMessage(message);
     }
 
     @Override

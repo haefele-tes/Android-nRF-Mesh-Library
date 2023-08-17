@@ -72,6 +72,7 @@ class TimeRoleGetState extends GenericMessageState {
         final int opCode = timeRoleGet.getOpCode();
         final byte[] parameters = timeRoleGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        timeRoleGet.setMessage(message);
     }
 
     @Override

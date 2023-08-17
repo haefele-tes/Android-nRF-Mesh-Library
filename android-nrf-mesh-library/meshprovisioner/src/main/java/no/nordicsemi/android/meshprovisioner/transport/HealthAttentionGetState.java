@@ -72,6 +72,7 @@ class HealthAttentionGetState extends GenericMessageState {
         final int opCode = healthAttentionGet.getOpCode();
         final byte[] parameters = healthAttentionGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        healthAttentionGet.setMessage(message);
     }
 
     @Override

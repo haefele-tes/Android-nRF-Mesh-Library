@@ -73,6 +73,7 @@ class GenericUserPropertyGetState extends GenericMessageState {
         final int opCode = genericUserPropertyGet.getOpCode();
         final byte[] parameters = genericUserPropertyGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericUserPropertyGet.setMessage(message);
     }
 
     @Override

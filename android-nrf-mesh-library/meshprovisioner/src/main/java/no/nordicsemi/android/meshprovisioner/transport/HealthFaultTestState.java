@@ -75,6 +75,7 @@ class HealthFaultTestState extends GenericMessageState implements LowerTransport
         final int opCode = healthFaultTest.getOpCode();
         final byte[] parameters = healthFaultTest.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        healthFaultTest.setMessage(message);
     }
 
     @Override

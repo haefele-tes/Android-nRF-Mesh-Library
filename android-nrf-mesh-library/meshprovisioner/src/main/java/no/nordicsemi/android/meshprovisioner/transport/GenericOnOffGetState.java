@@ -72,6 +72,7 @@ class GenericOnOffGetState extends GenericMessageState {
         final int opCode = genericOnOffGet.getOpCode();
         final byte[] parameters = genericOnOffGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericOnOffGet.setMessage(message);
     }
 
     @Override

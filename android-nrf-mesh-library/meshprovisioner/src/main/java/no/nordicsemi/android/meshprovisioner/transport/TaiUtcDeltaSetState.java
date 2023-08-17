@@ -74,6 +74,7 @@ class TaiUtcDeltaSetState extends GenericMessageState {
         final int opCode = taiUtcDeltaSet.getOpCode();
         final byte[] parameters = taiUtcDeltaSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        taiUtcDeltaSet.setMessage(message);
     }
 
     @Override

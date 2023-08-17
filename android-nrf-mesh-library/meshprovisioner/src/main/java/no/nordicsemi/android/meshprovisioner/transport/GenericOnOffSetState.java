@@ -72,6 +72,7 @@ class GenericOnOffSetState extends GenericMessageState implements LowerTransport
         final int opCode = genericOnOffSet.getOpCode();
         final byte[] parameters = genericOnOffSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericOnOffSet.setMessage(message);
     }
 
     @Override

@@ -72,6 +72,7 @@ class HealthAttentionSetUnacknowledgedState extends GenericMessageState {
         final int opCode = healthAttentionSetUnacknowledged.getOpCode();
         final byte[] parameters = healthAttentionSetUnacknowledged.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        healthAttentionSetUnacknowledged.setMessage(message);
     }
 
     @Override

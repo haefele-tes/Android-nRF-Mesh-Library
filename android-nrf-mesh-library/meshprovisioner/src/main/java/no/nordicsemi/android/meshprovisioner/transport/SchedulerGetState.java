@@ -73,6 +73,7 @@ class SchedulerGetState extends GenericMessageState {
         final int opCode = schedulerGet.getOpCode();
         final byte[] parameters = schedulerGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        schedulerGet.setMessage(message);
     }
 
     @Override

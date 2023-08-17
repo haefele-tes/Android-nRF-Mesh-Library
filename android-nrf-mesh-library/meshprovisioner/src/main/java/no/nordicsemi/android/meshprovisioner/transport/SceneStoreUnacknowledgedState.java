@@ -72,6 +72,7 @@ class SceneStoreUnacknowledgedState extends GenericMessageState implements Lower
         final int opCode = sceneStoreUnacknowledged.getOpCode();
         final byte[] parameters = sceneStoreUnacknowledged.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneStoreUnacknowledged.setMessage(message);
     }
 
     @Override

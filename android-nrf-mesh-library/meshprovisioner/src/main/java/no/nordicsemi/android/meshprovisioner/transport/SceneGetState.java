@@ -72,6 +72,7 @@ class SceneGetState extends GenericMessageState implements LowerTransportLayerCa
         final int opCode = sceneGet.getOpCode();
         final byte[] parameters = sceneGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneGet.setMessage(message);
     }
 
     @Override

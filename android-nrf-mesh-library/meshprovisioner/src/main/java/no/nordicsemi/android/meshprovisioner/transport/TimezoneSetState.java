@@ -74,6 +74,7 @@ class TimezoneSetState extends GenericMessageState {
         final int opCode = timezoneSet.getOpCode();
         final byte[] parameters = timezoneSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        timezoneSet.setMessage(message);
     }
 
     @Override

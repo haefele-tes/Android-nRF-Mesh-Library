@@ -71,6 +71,7 @@ class SceneRegisterGetState extends GenericMessageState implements LowerTranspor
         final int opCode = sceneRegisterGet.getOpCode();
         final byte[] parameters = sceneRegisterGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneRegisterGet.setMessage(message);
     }
 
     @Override

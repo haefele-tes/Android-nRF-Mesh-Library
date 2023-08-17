@@ -71,6 +71,7 @@ class GenericOnOffSetUnacknowledgedState extends GenericMessageState {
         final int opCode = genericOnOffSetUnacknowledged.getOpCode();
         final byte[] parameters = genericOnOffSetUnacknowledged.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericOnOffSetUnacknowledged.setMessage(message);
     }
 
     @Override

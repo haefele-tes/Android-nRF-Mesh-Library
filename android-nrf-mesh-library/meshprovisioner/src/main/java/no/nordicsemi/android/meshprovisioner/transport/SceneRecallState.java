@@ -71,6 +71,7 @@ class SceneRecallState extends GenericMessageState implements LowerTransportLaye
         final int opCode = sceneRecall.getOpCode();
         final byte[] parameters = sceneRecall.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneRecall.setMessage(message);
     }
 
     @Override

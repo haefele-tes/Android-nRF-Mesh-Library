@@ -72,6 +72,7 @@ class SceneRecallUnacknowledgedState extends GenericMessageState implements Lowe
         final int opCode = sceneRecallUnacknowledged.getOpCode();
         final byte[] parameters = sceneRecallUnacknowledged.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneRecallUnacknowledged.setMessage(message);
     }
 
     @Override

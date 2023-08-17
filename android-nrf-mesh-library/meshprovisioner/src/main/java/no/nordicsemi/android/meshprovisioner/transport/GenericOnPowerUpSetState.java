@@ -72,6 +72,7 @@ class GenericOnPowerUpSetState extends GenericMessageState implements LowerTrans
         final int opCode = genericOnPowerUpSet.getOpCode();
         final byte[] parameters = genericOnPowerUpSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericOnPowerUpSet.setMessage(message);
     }
 
     @Override

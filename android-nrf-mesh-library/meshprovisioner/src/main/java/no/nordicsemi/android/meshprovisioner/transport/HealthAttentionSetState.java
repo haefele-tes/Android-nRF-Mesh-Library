@@ -73,6 +73,7 @@ class HealthAttentionSetState extends GenericMessageState implements LowerTransp
         final int opCode = healthAttentionSet.getOpCode();
         final byte[] parameters = healthAttentionSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        healthAttentionSet.setMessage(message);
     }
 
     @Override

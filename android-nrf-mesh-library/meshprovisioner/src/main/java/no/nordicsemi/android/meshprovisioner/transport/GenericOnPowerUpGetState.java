@@ -73,6 +73,7 @@ class GenericOnPowerUpGetState extends GenericMessageState {
         final int opCode = genericOnPowerUpGet.getOpCode();
         final byte[] parameters = genericOnPowerUpGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        genericOnPowerUpGet.setMessage(message);
     }
 
     @Override

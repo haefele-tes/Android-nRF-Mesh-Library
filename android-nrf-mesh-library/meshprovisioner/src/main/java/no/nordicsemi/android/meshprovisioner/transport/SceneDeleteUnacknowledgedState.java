@@ -71,6 +71,7 @@ class SceneDeleteUnacknowledgedState extends GenericMessageState implements Lowe
         final int opCode = sceneDeleteUnacknowledged.getOpCode();
         final byte[] parameters = sceneDeleteUnacknowledged.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneDeleteUnacknowledged.setMessage(message);
     }
 
     @Override

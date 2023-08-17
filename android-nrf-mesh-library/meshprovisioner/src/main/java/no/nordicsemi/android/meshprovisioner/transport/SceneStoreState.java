@@ -71,6 +71,7 @@ class SceneStoreState extends GenericMessageState implements LowerTransportLayer
         final int opCode = sceneStore.getOpCode();
         final byte[] parameters = sceneStore.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        sceneStore.setMessage(message);
     }
 
     @Override
