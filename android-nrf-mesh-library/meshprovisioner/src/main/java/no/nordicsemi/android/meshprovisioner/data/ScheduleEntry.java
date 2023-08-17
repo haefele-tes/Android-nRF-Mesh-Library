@@ -125,6 +125,10 @@ public class ScheduleEntry {
             return new Year(Math.min(lastTwoDigest, 99));
         }
 
+		public static Year Value(int value) {
+			return new Year(value);
+		}
+
         @Override
         public String toString() {
             return "Year{" +
@@ -188,8 +192,11 @@ public class ScheduleEntry {
 
         public static Day Any = new Day(0x00);
 
+		public static Day Date(int value) {
+			return new Day(Math.min(value, 31));
+		}
         public static Day Value(int value) {
-            return new Day(Math.min(value, 31));
+            return new Day(value);
         }
 
         @Override
@@ -208,12 +215,16 @@ public class ScheduleEntry {
             super(value);
         }
 
-        public static Hour Value(int value) {
+        public static Hour Hour(int value) {
             return new Hour(Math.min(value, 23));
         }
 
         public static Hour Any = new Hour(0x18);
         public static Hour Random = new Hour(0x19);
+
+		public static Hour Value(int value) {
+			return new Hour(value);
+		}
 
         @Override
         public String toString() {
@@ -232,9 +243,15 @@ public class ScheduleEntry {
             super(value);
         }
 
-        public static Minute Value(int value) {
+        public static Minute Minute(int value) {
             return new Minute(Math.min(value, 59));
         }
+
+		public static Minute Value(int value) {
+			return new Minute(value);
+		}
+
+
 
         public static Minute Any = new Minute(0x3C);
         public static Minute Every15 = new Minute(0x3D);
@@ -258,9 +275,13 @@ public class ScheduleEntry {
             super(value);
         }
 
-        public static Second Value(int value) {
+        public static Second Second(int value) {
             return new Second(Math.min(value, 59));
         }
+
+		public static Second Value(int value) {
+			return new Second(value);
+		}
 
         public static Second Any = new Second(0x3C);
         public static Second Every15 = new Second(0x3D);
@@ -352,6 +373,10 @@ public class ScheduleEntry {
         public static Scene Address(int address) {
             return new Scene(address);
         }
+
+		public static Scene Value(int address) {
+			return new Scene(address);
+		}
 
         @Override
         public String toString() {

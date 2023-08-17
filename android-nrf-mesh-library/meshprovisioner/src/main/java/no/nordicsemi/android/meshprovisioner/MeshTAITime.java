@@ -1,13 +1,16 @@
 package no.nordicsemi.android.meshprovisioner;
 
+import no.nordicsemi.android.meshprovisioner.data.TaiUtcDelta;
+import no.nordicsemi.android.meshprovisioner.data.TimeZoneOffset;
+
 public class MeshTAITime {
 
     private final Long taiSeconds;
     private final byte subSecond;
     private final byte uncertainty;
     private final boolean timeAuthority;
-    private final short utcDelta;
-    private final byte timeZoneOffset;
+    private final TaiUtcDelta utcDelta;
+    private final TimeZoneOffset timeZoneOffset;
 
     /**
      * Time Set is an acknowledged message used to set the Time state of an element (see Section 5.1.1).
@@ -23,7 +26,7 @@ public class MeshTAITime {
      * @param timeZoneOffset The Time Zone Offset New state reflects the information on the upcoming Time Zone change. This usually informs about an upcoming Daylight Saving Time change or other change planned by local or regional regulatory bodies. By being aware of the upcoming change, devices can automatically execute the change even without the presence of a change coordinator.
      *                       The Time Zone Offset New field represents the new zone offset in 15-minute increments. The value is the number of 15-minute increments from UTC. Positive numbers are eastwards.
      */
-    public MeshTAITime(Long taiSeconds, byte subSecond, byte uncertainty, boolean timeAuthority, short utcDelta, byte timeZoneOffset) {
+    public MeshTAITime(Long taiSeconds, byte subSecond, byte uncertainty, boolean timeAuthority, TaiUtcDelta utcDelta, TimeZoneOffset timeZoneOffset) {
         this.taiSeconds = taiSeconds;
         this.subSecond = subSecond;
         this.uncertainty = uncertainty;
@@ -48,11 +51,11 @@ public class MeshTAITime {
         return timeAuthority;
     }
 
-    public short getUtcDelta() {
+    public TaiUtcDelta getUtcDelta() {
         return utcDelta;
     }
 
-    public byte getTimeZoneOffset() {
+    public TimeZoneOffset getTimeZoneOffset() {
         return timeZoneOffset;
     }
 }
