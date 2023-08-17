@@ -9,7 +9,7 @@ import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
 
 
 /**
- * State class for handling TimeRoleGet messages.
+ * State class for handling TaiUtcDeltaSetState messages.
  */
 @SuppressWarnings("unused")
 class TaiUtcDeltaSetState extends GenericMessageState {
@@ -17,12 +17,12 @@ class TaiUtcDeltaSetState extends GenericMessageState {
     private static final String TAG = TaiUtcDeltaSetState.class.getSimpleName();
 
     /**
-     * Constructs TimeRoleGetState
+     * Constructs TaiUtcDeltaSetStateState
      *
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param timeRoleGet Wrapper class {@link TimeRoleGet} containing the opcode and parameters for {@link TimeRoleGet} message
+     * @param taiUtcDeltaSet Wrapper class {@link TaiUtcDeltaSetState} containing the opcode and parameters for {@link TaiUtcDeltaSetState} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
@@ -30,29 +30,30 @@ class TaiUtcDeltaSetState extends GenericMessageState {
     TaiUtcDeltaSetState(@NonNull final Context context,
                         @NonNull final byte[] src,
                         @NonNull final byte[] dst,
-                        @NonNull final TaiUtcDeltaSet timeRoleGet,
+                        @NonNull final TaiUtcDeltaSet taiUtcDeltaSet,
                         @NonNull final MeshTransport meshTransport,
                         @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), timeRoleGet, meshTransport, callbacks);        createAccessMessage();
+        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), taiUtcDeltaSet, meshTransport, callbacks);
+        createAccessMessage();
     }
 
     /**
-     * Constructs TimeRoleGetState
+     * Constructs TaiUtcDeltaSetStateState
      *
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param timeRoleGet Wrapper class {@link TimeRoleGet} containing the opcode and parameters for {@link TimeRoleGet} message
+     * @param taiUtcDeltaSet Wrapper class {@link TaiUtcDeltaSetState} containing the opcode and parameters for {@link TaiUtcDeltaSetState} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
     TaiUtcDeltaSetState(@NonNull final Context context,
                         final int src,
                         final int dst,
-                        @NonNull final TaiUtcDeltaSet timeRoleGet,
+                        @NonNull final TaiUtcDeltaSet taiUtcDeltaSet,
                         @NonNull final MeshTransport meshTransport,
                         @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, timeRoleGet, meshTransport, callbacks);
+        super(context, src, dst, taiUtcDeltaSet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -65,13 +66,13 @@ class TaiUtcDeltaSetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-         final TaiUtcDeltaGet taiUtcDeltaGet = (TaiUtcDeltaGet) mMeshMessage;
-        final byte[] key = taiUtcDeltaGet.getAppKey();
-        final int akf = taiUtcDeltaGet.getAkf();
-        final int aid = taiUtcDeltaGet.getAid();
-        final int aszmic = taiUtcDeltaGet.getAszmic();
-        final int opCode = taiUtcDeltaGet.getOpCode();
-        final byte[] parameters = taiUtcDeltaGet.getParameters();
+        final TaiUtcDeltaSet taiUtcDeltaSet = (TaiUtcDeltaSet) mMeshMessage;
+        final byte[] key = taiUtcDeltaSet.getAppKey();
+        final int akf = taiUtcDeltaSet.getAkf();
+        final int aid = taiUtcDeltaSet.getAid();
+        final int aszmic = taiUtcDeltaSet.getAszmic();
+        final int opCode = taiUtcDeltaSet.getOpCode();
+        final byte[] parameters = taiUtcDeltaSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

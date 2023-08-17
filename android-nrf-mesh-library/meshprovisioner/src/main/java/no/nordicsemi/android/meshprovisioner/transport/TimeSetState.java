@@ -22,7 +22,7 @@ class TimeSetState extends GenericMessageState {
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param TimeSet Wrapper class {@link TimeSet} containing the opcode and parameters for {@link TimeSet} message
+     * @param timeSet Wrapper class {@link TimeSet} containing the opcode and parameters for {@link TimeSet} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
@@ -30,10 +30,10 @@ class TimeSetState extends GenericMessageState {
     TimeSetState(@NonNull final Context context,
                  @NonNull final byte[] src,
                  @NonNull final byte[] dst,
-                 @NonNull final TimeSet TimeSet,
+                 @NonNull final TimeSet timeSet,
                  @NonNull final MeshTransport meshTransport,
                  @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), TimeSet, meshTransport, callbacks);
+        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), timeSet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -50,10 +50,10 @@ class TimeSetState extends GenericMessageState {
     TimeSetState(@NonNull final Context context,
                  final int src,
                  final int dst,
-                 @NonNull final TimeSet TimeSet,
+                 @NonNull final TimeSet timeSet,
                  @NonNull final MeshTransport meshTransport,
                  @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, TimeSet, meshTransport, callbacks);
+        super(context, src, dst, timeSet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -66,13 +66,13 @@ class TimeSetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final TimeSet TimeSet = (TimeSet) mMeshMessage;
-        final byte[] key = TimeSet.getAppKey();
-        final int akf = TimeSet.getAkf();
-        final int aid = TimeSet.getAid();
-        final int aszmic = TimeSet.getAszmic();
-        final int opCode = TimeSet.getOpCode();
-        final byte[] parameters = TimeSet.getParameters();
+        final TimeSet timeSet = (TimeSet) mMeshMessage;
+        final byte[] key = timeSet.getAppKey();
+        final int akf = timeSet.getAkf();
+        final int aid = timeSet.getAid();
+        final int aszmic = timeSet.getAszmic();
+        final int opCode = timeSet.getOpCode();
+        final byte[] parameters = timeSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

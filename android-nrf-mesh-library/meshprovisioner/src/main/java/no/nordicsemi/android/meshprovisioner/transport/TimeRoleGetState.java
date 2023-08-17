@@ -64,13 +64,13 @@ class TimeRoleGetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-         final TimeRoleGet m = (TimeRoleGet) mMeshMessage;
-        final byte[] key = m.getAppKey();
-        final int akf = m.getAkf();
-        final int aid = m.getAid();
-        final int aszmic = m.getAszmic();
-        final int opCode = m.getOpCode();
-        final byte[] parameters = m.getParameters();
+         final TimeRoleGet timeRoleGet = (TimeRoleGet) mMeshMessage;
+        final byte[] key = timeRoleGet.getAppKey();
+        final int akf = timeRoleGet.getAkf();
+        final int aid = timeRoleGet.getAid();
+        final int aszmic = timeRoleGet.getAszmic();
+        final int opCode = timeRoleGet.getOpCode();
+        final byte[] parameters = timeRoleGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

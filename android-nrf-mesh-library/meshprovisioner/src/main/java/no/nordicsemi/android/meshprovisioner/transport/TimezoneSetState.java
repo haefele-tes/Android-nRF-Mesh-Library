@@ -22,7 +22,7 @@ class TimezoneSetState extends GenericMessageState {
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param TimezoneSet Wrapper class {@link TimezoneSet} containing the opcode and parameters for {@link TimezoneSet} message
+     * @param timezoneSet Wrapper class {@link TimezoneSet} containing the opcode and parameters for {@link TimezoneSet} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
@@ -30,10 +30,10 @@ class TimezoneSetState extends GenericMessageState {
     TimezoneSetState(@NonNull final Context context,
                  @NonNull final byte[] src,
                  @NonNull final byte[] dst,
-                 @NonNull final TimezoneSet TimezoneSet,
+                 @NonNull final TimezoneSet timezoneSet,
                  @NonNull final MeshTransport meshTransport,
                  @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), TimezoneSet, meshTransport, callbacks);
+        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), timezoneSet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -43,17 +43,17 @@ class TimezoneSetState extends GenericMessageState {
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param TimezoneSet Wrapper class {@link TimezoneSet} containing the opcode and parameters for {@link TimezoneSet} message
+     * @param timezoneSet Wrapper class {@link TimezoneSet} containing the opcode and parameters for {@link TimezoneSet} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
     TimezoneSetState(@NonNull final Context context,
                  final int src,
                  final int dst,
-                 @NonNull final TimezoneSet TimezoneSet,
+                 @NonNull final TimezoneSet timezoneSet,
                  @NonNull final MeshTransport meshTransport,
                  @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, TimezoneSet, meshTransport, callbacks);
+        super(context, src, dst, timezoneSet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -66,13 +66,13 @@ class TimezoneSetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final TimezoneSet TimezoneSet = (TimezoneSet) mMeshMessage;
-        final byte[] key = TimezoneSet.getAppKey();
-        final int akf = TimezoneSet.getAkf();
-        final int aid = TimezoneSet.getAid();
-        final int aszmic = TimezoneSet.getAszmic();
-        final int opCode = TimezoneSet.getOpCode();
-        final byte[] parameters = TimezoneSet.getParameters();
+        final TimezoneSet timezoneSet = (TimezoneSet) mMeshMessage;
+        final byte[] key = timezoneSet.getAppKey();
+        final int akf = timezoneSet.getAkf();
+        final int aid = timezoneSet.getAid();
+        final int aszmic = timezoneSet.getAszmic();
+        final int opCode = timezoneSet.getOpCode();
+        final byte[] parameters = timezoneSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

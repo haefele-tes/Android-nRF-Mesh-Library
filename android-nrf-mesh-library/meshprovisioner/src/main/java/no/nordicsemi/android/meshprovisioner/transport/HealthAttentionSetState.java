@@ -30,10 +30,10 @@ class HealthAttentionSetState extends GenericMessageState implements LowerTransp
     HealthAttentionSetState(@NonNull final Context context,
                             @NonNull final byte[] src,
                             @NonNull final byte[] dst,
-                            @NonNull final HealthAttentionSet HealthAttentionSet,
+                            @NonNull final HealthAttentionSet healthAttentionSet,
                             @NonNull final MeshTransport meshTransport,
                             @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), HealthAttentionSet, meshTransport, callbacks);
+        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), healthAttentionSet, meshTransport, callbacks);
     }
 
     /**
@@ -49,10 +49,10 @@ class HealthAttentionSetState extends GenericMessageState implements LowerTransp
     HealthAttentionSetState(@NonNull final Context context,
                             final int src,
                             final int dst,
-                            @NonNull final HealthAttentionSet HealthAttentionSet,
+                            @NonNull final HealthAttentionSet healthAttentionSet,
                             @NonNull final MeshTransport meshTransport,
                             @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, HealthAttentionSet, meshTransport, callbacks);
+        super(context, src, dst, healthAttentionSet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -65,13 +65,13 @@ class HealthAttentionSetState extends GenericMessageState implements LowerTransp
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final HealthAttentionSet HealthAttentionSet = (HealthAttentionSet) mMeshMessage;
-        final byte[] key = HealthAttentionSet.getAppKey();
-        final int akf = HealthAttentionSet.getAkf();
-        final int aid = HealthAttentionSet.getAid();
-        final int aszmic = HealthAttentionSet.getAszmic();
-        final int opCode = HealthAttentionSet.getOpCode();
-        final byte[] parameters = HealthAttentionSet.getParameters();
+        final HealthAttentionSet healthAttentionSet = (HealthAttentionSet) mMeshMessage;
+        final byte[] key = healthAttentionSet.getAppKey();
+        final int akf = healthAttentionSet.getAkf();
+        final int aid = healthAttentionSet.getAid();
+        final int aszmic = healthAttentionSet.getAszmic();
+        final int opCode = healthAttentionSet.getOpCode();
+        final byte[] parameters = healthAttentionSet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

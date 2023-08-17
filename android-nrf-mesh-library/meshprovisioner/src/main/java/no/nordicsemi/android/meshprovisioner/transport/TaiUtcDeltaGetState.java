@@ -22,7 +22,7 @@ class TaiUtcDeltaGetState extends GenericMessageState {
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param TaiUtcDeltaGet Wrapper class {@link TaiUtcDeltaGet} containing the opcode and parameters for {@link TaiUtcDeltaGet} message
+     * @param taiUtcDeltaGet Wrapper class {@link TaiUtcDeltaGet} containing the opcode and parameters for {@link TaiUtcDeltaGet} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
@@ -30,10 +30,10 @@ class TaiUtcDeltaGetState extends GenericMessageState {
     TaiUtcDeltaGetState(@NonNull final Context context,
                          @NonNull final byte[] src,
                          @NonNull final byte[] dst,
-                         @NonNull final TaiUtcDeltaGet TaiUtcDeltaGet,
+                         @NonNull final TaiUtcDeltaGet taiUtcDeltaGet,
                          @NonNull final MeshTransport meshTransport,
                          @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), TaiUtcDeltaGet, meshTransport, callbacks);        createAccessMessage();
+        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), taiUtcDeltaGet, meshTransport, callbacks);        createAccessMessage();
     }
 
     /**
@@ -42,17 +42,17 @@ class TaiUtcDeltaGetState extends GenericMessageState {
      * @param context         Context of the application
      * @param src             Source address
      * @param dst             Destination address to which the message must be sent to
-     * @param TaiUtcDeltaGet Wrapper class {@link TaiUtcDeltaGet} containing the opcode and parameters for {@link TaiUtcDeltaGet} message
+     * @param taiUtcDeltaGet Wrapper class {@link TaiUtcDeltaGet} containing the opcode and parameters for {@link TaiUtcDeltaGet} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
     TaiUtcDeltaGetState(@NonNull final Context context,
                          final int src,
                          final int dst,
-                         @NonNull final TaiUtcDeltaGet TaiUtcDeltaGet,
+                         @NonNull final TaiUtcDeltaGet taiUtcDeltaGet,
                          @NonNull final MeshTransport meshTransport,
                          @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, TaiUtcDeltaGet, meshTransport, callbacks);
+        super(context, src, dst, taiUtcDeltaGet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -65,13 +65,13 @@ class TaiUtcDeltaGetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final TaiUtcDeltaGet TaiUtcDeltaGet = (TaiUtcDeltaGet) mMeshMessage;
-        final byte[] key = TaiUtcDeltaGet.getAppKey();
-        final int akf = TaiUtcDeltaGet.getAkf();
-        final int aid = TaiUtcDeltaGet.getAid();
-        final int aszmic = TaiUtcDeltaGet.getAszmic();
-        final int opCode = TaiUtcDeltaGet.getOpCode();
-        final byte[] parameters = TaiUtcDeltaGet.getParameters();
+        final TaiUtcDeltaGet taiUtcDeltaGet = (TaiUtcDeltaGet) mMeshMessage;
+        final byte[] key = taiUtcDeltaGet.getAppKey();
+        final int akf = taiUtcDeltaGet.getAkf();
+        final int aid = taiUtcDeltaGet.getAid();
+        final int aszmic = taiUtcDeltaGet.getAszmic();
+        final int opCode = taiUtcDeltaGet.getOpCode();
+        final byte[] parameters = taiUtcDeltaGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

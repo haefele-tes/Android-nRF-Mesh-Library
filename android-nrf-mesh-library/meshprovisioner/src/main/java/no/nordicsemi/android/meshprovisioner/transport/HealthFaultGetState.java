@@ -33,9 +33,9 @@ class HealthFaultGetState extends GenericMessageState implements LowerTransportL
      */
     @Deprecated
     HealthFaultGetState(@NonNull final Context context, @NonNull final byte[] src, @NonNull final byte[] dst,
-            @NonNull final HealthFaultGet HealthFaultGet, @NonNull final MeshTransport meshTransport,
+            @NonNull final HealthFaultGet healthFaultGet, @NonNull final MeshTransport meshTransport,
             @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), HealthFaultGet, meshTransport,
+        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), healthFaultGet, meshTransport,
                 callbacks);
     }
 
@@ -54,9 +54,9 @@ class HealthFaultGetState extends GenericMessageState implements LowerTransportL
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
     HealthFaultGetState(@NonNull final Context context, final int src, final int dst,
-            @NonNull final HealthFaultGet HealthFaultGet, @NonNull final MeshTransport meshTransport,
+            @NonNull final HealthFaultGet healthFaultGet, @NonNull final MeshTransport meshTransport,
             @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, HealthFaultGet, meshTransport, callbacks);
+        super(context, src, dst, healthFaultGet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -69,13 +69,13 @@ class HealthFaultGetState extends GenericMessageState implements LowerTransportL
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final HealthFaultGet HealthFaultGet = (HealthFaultGet) mMeshMessage;
-        final byte[] key = HealthFaultGet.getAppKey();
-        final int akf = HealthFaultGet.getAkf();
-        final int aid = HealthFaultGet.getAid();
-        final int aszmic = HealthFaultGet.getAszmic();
-        final int opCode = HealthFaultGet.getOpCode();
-        final byte[] parameters = HealthFaultGet.getParameters();
+        final HealthFaultGet healthFaultGet = (HealthFaultGet) mMeshMessage;
+        final byte[] key = healthFaultGet.getAppKey();
+        final int akf = healthFaultGet.getAkf();
+        final int aid = healthFaultGet.getAid();
+        final int aszmic = healthFaultGet.getAszmic();
+        final int opCode = healthFaultGet.getOpCode();
+        final byte[] parameters = healthFaultGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

@@ -29,10 +29,10 @@ class TimeGetState extends GenericMessageState {
     TimeGetState(@NonNull final Context context,
                          @NonNull final byte[] src,
                          @NonNull final byte[] dst,
-                         @NonNull final TimeGet TimeGet,
+                         @NonNull final TimeGet timeGet,
                          @NonNull final MeshTransport meshTransport,
                          @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), TimeGet, meshTransport, callbacks);        createAccessMessage();
+        super(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), timeGet, meshTransport, callbacks);        createAccessMessage();
     }
 
     /**
@@ -48,10 +48,10 @@ class TimeGetState extends GenericMessageState {
     TimeGetState(@NonNull final Context context,
                          final int src,
                          final int dst,
-                         @NonNull final TimeGet TimeGet,
+                         @NonNull final TimeGet timeGet,
                          @NonNull final MeshTransport meshTransport,
                          @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        super(context, src, dst, TimeGet, meshTransport, callbacks);
+        super(context, src, dst, timeGet, meshTransport, callbacks);
         createAccessMessage();
     }
 
@@ -64,13 +64,13 @@ class TimeGetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final TimeGet TimeGet = (TimeGet) mMeshMessage;
-        final byte[] key = TimeGet.getAppKey();
-        final int akf = TimeGet.getAkf();
-        final int aid = TimeGet.getAid();
-        final int aszmic = TimeGet.getAszmic();
-        final int opCode = TimeGet.getOpCode();
-        final byte[] parameters = TimeGet.getParameters();
+        final TimeGet timeGet = (TimeGet) mMeshMessage;
+        final byte[] key = timeGet.getAppKey();
+        final int akf = timeGet.getAkf();
+        final int aid = timeGet.getAid();
+        final int aszmic = timeGet.getAszmic();
+        final int opCode = timeGet.getOpCode();
+        final byte[] parameters = timeGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

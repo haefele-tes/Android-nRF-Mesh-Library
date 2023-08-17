@@ -31,9 +31,9 @@ class HealthFaultTestState extends GenericMessageState implements LowerTransport
      */
     @Deprecated
     HealthFaultTestState(@NonNull final Context context, @NonNull final byte[] src, @NonNull final byte[] dst,
-            @NonNull final HealthFaultTest HealthFaultTest, @NonNull final MeshTransport meshTransport,
+            @NonNull final HealthFaultTest healthFaultTest, @NonNull final MeshTransport meshTransport,
             @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), HealthFaultTest, meshTransport,
+        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), healthFaultTest, meshTransport,
                 callbacks);
     }
 
@@ -67,13 +67,13 @@ class HealthFaultTestState extends GenericMessageState implements LowerTransport
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final HealthFaultTest HealthFaultTest = (HealthFaultTest) mMeshMessage;
-        final byte[] key = HealthFaultTest.getAppKey();
-        final int akf = HealthFaultTest.getAkf();
-        final int aid = HealthFaultTest.getAid();
-        final int aszmic = HealthFaultTest.getAszmic();
-        final int opCode = HealthFaultTest.getOpCode();
-        final byte[] parameters = HealthFaultTest.getParameters();
+        final HealthFaultTest healthFaultTest = (HealthFaultTest) mMeshMessage;
+        final byte[] key = healthFaultTest.getAppKey();
+        final int akf = healthFaultTest.getAkf();
+        final int aid = healthFaultTest.getAid();
+        final int aszmic = healthFaultTest.getAszmic();
+        final int opCode = healthFaultTest.getOpCode();
+        final byte[] parameters = healthFaultTest.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 

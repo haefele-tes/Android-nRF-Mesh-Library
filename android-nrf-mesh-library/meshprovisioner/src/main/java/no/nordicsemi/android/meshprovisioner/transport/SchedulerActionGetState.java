@@ -65,13 +65,13 @@ class SchedulerActionGetState extends GenericMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-        final SchedulerActionGet m = (SchedulerActionGet) mMeshMessage;
-        final byte[] key = m.getAppKey();
-        final int akf = m.getAkf();
-        final int aid = m.getAid();
-        final int aszmic = m.getAszmic();
-        final int opCode = m.getOpCode();
-        final byte[] parameters = m.getParameters();
+        final SchedulerActionGet schedulerActionGet = (SchedulerActionGet) mMeshMessage;
+        final byte[] key = schedulerActionGet.getAppKey();
+        final int akf = schedulerActionGet.getAkf();
+        final int aid = schedulerActionGet.getAid();
+        final int aszmic = schedulerActionGet.getAszmic();
+        final int opCode = schedulerActionGet.getOpCode();
+        final byte[] parameters = schedulerActionGet.getParameters();
         message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
     }
 
