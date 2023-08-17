@@ -1,6 +1,5 @@
 package no.nordicsemi.android.meshprovisioner.transport;
 
-
 import androidx.annotation.NonNull;
 
 import java.nio.ByteBuffer;

@@ -1,8 +1,9 @@
 package no.nordicsemi.android.meshprovisioner.transport;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
 

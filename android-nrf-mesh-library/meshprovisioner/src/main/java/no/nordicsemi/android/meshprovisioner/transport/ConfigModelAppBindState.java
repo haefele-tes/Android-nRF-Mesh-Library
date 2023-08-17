@@ -94,7 +94,6 @@ final class ConfigModelAppBindState extends ConfigMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-
         final ConfigModelAppBind configModelAppBind = (ConfigModelAppBind) mMeshMessage;
         final int akf = configModelAppBind.getAkf();
         final int aid = configModelAppBind.getAid();

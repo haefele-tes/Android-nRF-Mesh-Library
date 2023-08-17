@@ -33,6 +33,6 @@ public class SchedulerGet extends GenericMessage {
 
     @Override
     void assembleMessageParameters() {
-        mAid = SecureUtils.calculateK4(mAppKey);
+		mAid = SecureUtils.calculateK4(mAppKey);
     }
 }

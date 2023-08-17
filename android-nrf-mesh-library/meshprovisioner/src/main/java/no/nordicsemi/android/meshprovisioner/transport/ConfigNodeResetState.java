@@ -72,7 +72,6 @@ class ConfigNodeResetState extends ConfigMessageState {
      * Creates the access message to be sent to the node
      */
     private void createAccessMessage() {
-
         final ConfigNodeReset configNodeReset = (ConfigNodeReset) mMeshMessage;
         final int akf = configNodeReset.getAkf();
         final int aid = configNodeReset.getAid();
