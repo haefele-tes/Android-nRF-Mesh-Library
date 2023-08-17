@@ -28,6 +28,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import no.nordicsemi.android.meshprovisioner.data.TimeZoneOffset;
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
 import no.nordicsemi.android.meshprovisioner.utils.ArrayUtils;
 import no.nordicsemi.android.meshprovisioner.utils.BitReader;
@@ -43,11 +44,11 @@ public final class TimeStatus extends GenericStatusMessage implements Parcelable
 
     private static final int OP_CODE = ApplicationMessageOpCodes.TIME_STATUS;
     private Long taiSeconds;
-    private Byte subSecond;
-    private Byte uncertainty;
+    private Short subSecond;
+    private Short uncertainty;
     private Boolean timeAuthority;
     private Short utcDelta;
-    private Byte timeZoneOffset;
+    private TimeZoneOffset timeZoneOffset;
 
     private static final Creator<TimeStatus> CREATOR = new Creator<TimeStatus>() {
         @Override
@@ -78,11 +79,11 @@ public final class TimeStatus extends GenericStatusMessage implements Parcelable
     void parseStatusParameters() {
         BitReader bitReader = new BitReader(ArrayUtils.reverseArray(mParameters));
         if (bitReader.bitsLeft() == TIME_BIT_SIZE) {
-            timeZoneOffset = (byte) (bitReader.getBits(TIME_ZONE_OFFSET_BIT_SIZE) - TIME_ZONE_START_RANGE);
-            utcDelta = (short) (bitReader.getBits(UTC_DELTA_BIT_SIZE) - UTC_DELTA_START_RANGE);
+            timeZoneOffset = TimeZoneOffset.of((byte) bitReader.getBits(TIME_ZONE_OFFSET_BIT_SIZE));
+            utcDelta = (short) (bitReader.getBits(UTC_DELTA_BIT_SIZE) & 0xffff);
             timeAuthority = bitReader.getBits(TIME_AUTHORITY_BIT_SIZE) == 1;
-            uncertainty = (byte) bitReader.getBits(UNCERTAINTY_BIT_SIZE);
-            subSecond = (byte) bitReader.getBits(SUB_SECOND_BIT_SIZE);
+            uncertainty = (short) (bitReader.getBits(UNCERTAINTY_BIT_SIZE) & 0xff);
+            subSecond = (short) (bitReader.getBits(SUB_SECOND_BIT_SIZE) & 0xff);
             taiSeconds = bitReader.getBits(TAI_SECONDS_BIT_SIZE);
         } else {
             taiSeconds = 0L;
@@ -90,7 +91,7 @@ public final class TimeStatus extends GenericStatusMessage implements Parcelable
             uncertainty = 0;
             timeAuthority = false;
             utcDelta = 0;
-            timeZoneOffset = 0;
+            timeZoneOffset = TimeZoneOffset.of((byte) 0x00);
         }
     }
 
@@ -105,12 +106,12 @@ public final class TimeStatus extends GenericStatusMessage implements Parcelable
     }
 
     @Nullable
-    public Byte getSubSecond() {
+    public Short getSubSecond() {
         return subSecond;
     }
 
     @Nullable
-    public Byte getUncertainty() {
+    public Short getUncertainty() {
         return uncertainty;
     }
 
@@ -125,7 +126,7 @@ public final class TimeStatus extends GenericStatusMessage implements Parcelable
     }
 
     @Nullable
-    public Byte getTimeZoneOffset() {
+    public TimeZoneOffset getTimeZoneOffset() {
         return timeZoneOffset;
     }
 
@@ -133,12 +134,11 @@ public final class TimeStatus extends GenericStatusMessage implements Parcelable
     static final int SUB_SECOND_BIT_SIZE = 8;
     static final int UNCERTAINTY_BIT_SIZE = 8;
     static final int TIME_AUTHORITY_BIT_SIZE = 1;
+	static final int PADDING_BIT_SIZE = 1;
     static final int UTC_DELTA_BIT_SIZE = 15;
     static final int TIME_ZONE_OFFSET_BIT_SIZE = 8;
     static final int TIME_BIT_SIZE = TAI_SECONDS_BIT_SIZE + SUB_SECOND_BIT_SIZE + UNCERTAINTY_BIT_SIZE + TIME_AUTHORITY_BIT_SIZE
             + UTC_DELTA_BIT_SIZE + TIME_ZONE_OFFSET_BIT_SIZE;
-    static final int TIME_ZONE_START_RANGE = 0x40;
-    static final int UTC_DELTA_START_RANGE = 0xFF;
 
     @Override
     public int describeContents() {

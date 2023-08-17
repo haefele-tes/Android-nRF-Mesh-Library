@@ -27,6 +27,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import no.nordicsemi.android.meshprovisioner.data.TaiUtcDelta;
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
 import no.nordicsemi.android.meshprovisioner.utils.ArrayUtils;
 import no.nordicsemi.android.meshprovisioner.utils.BitReader;
@@ -43,8 +44,8 @@ public final class TaiUtcDeltaStatus extends GenericStatusMessage implements Par
 
 
     private Long taiDeltaChange;
-    private Byte taiUtcDeltaCurrent;
-    private Byte taiUtcDeltaNew;
+    private TaiUtcDelta taiUtcDeltaCurrent;
+    private TaiUtcDelta taiUtcDeltaNew;
 
     private static final Creator<TaiUtcDeltaStatus> CREATOR = new Creator<TaiUtcDeltaStatus>() {
         @Override
@@ -74,16 +75,18 @@ public final class TaiUtcDeltaStatus extends GenericStatusMessage implements Par
     @Override
      void parseStatusParameters() {
         BitReader bitReader = new BitReader(ArrayUtils.reverseArray(mParameters));
-        if (bitReader.bitsLeft() == TIME_BIT_SIZE) {
+        if (bitReader.bitsLeft() == TAI_UTC_DELTA_BIT_SIZE) {
             taiDeltaChange = (long) (bitReader.getBits(TAI_DELTA_CHANGE_BIT_SIZE));
             bitReader.getBits(1);
-            taiUtcDeltaNew = (byte) bitReader.getBits(TAI_UTC_DELTA_NEW_BIT_SIZE);
+			long newDelta = bitReader.getBits(TAI_UTC_DELTA_NEW_BIT_SIZE);
+            taiUtcDeltaNew = TaiUtcDelta.of((short) (newDelta & 0xffff));
             bitReader.getBits(1);
-            taiUtcDeltaCurrent = (byte) bitReader.getBits(TAI_UTC_DELTA_CURRENT_BIT_SIZE);
+			long currentDelta = bitReader.getBits(TAI_UTC_DELTA_CURRENT_BIT_SIZE);
+            taiUtcDeltaCurrent = TaiUtcDelta.of((short) (currentDelta & 0xffff));
         } else {
             taiDeltaChange = 0L;
-            taiUtcDeltaNew = 0;
-            taiUtcDeltaCurrent = 0;
+            taiUtcDeltaNew = TaiUtcDelta.of((short) 0x00);
+            taiUtcDeltaCurrent = TaiUtcDelta.of((short) 0x00);
         }
     }
 
@@ -98,9 +101,9 @@ public final class TaiUtcDeltaStatus extends GenericStatusMessage implements Par
         return taiDeltaChange;
     }
 
-    public byte getTaiUtcDeltaCurrent() { return taiUtcDeltaCurrent; }
+    public TaiUtcDelta getTaiUtcDeltaCurrent() { return taiUtcDeltaCurrent; }
 
-    public byte getTaiUtcDeltaNew() { return taiUtcDeltaNew; }
+    public TaiUtcDelta getTaiUtcDeltaNew() { return taiUtcDeltaNew; }
 
     @Override
     public int describeContents() {
@@ -117,6 +120,6 @@ public final class TaiUtcDeltaStatus extends GenericStatusMessage implements Par
     static final int TAI_UTC_DELTA_CURRENT_BIT_SIZE = 15;
     static final int TAI_UTC_DELTA_NEW_BIT_SIZE = 15;
 
-    static final int TIME_BIT_SIZE = TAI_UTC_DELTA_CURRENT_BIT_SIZE + TAI_UTC_DELTA_NEW_BIT_SIZE + 1 + TAI_UTC_DELTA_CURRENT_BIT_SIZE + 1;
+    static final int TAI_UTC_DELTA_BIT_SIZE = TAI_DELTA_CHANGE_BIT_SIZE + TAI_UTC_DELTA_NEW_BIT_SIZE + 1 + TAI_UTC_DELTA_CURRENT_BIT_SIZE + 1;
 
 }

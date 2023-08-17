@@ -19,23 +19,26 @@ import no.nordicsemi.android.meshprovisioner.utils.SecureUtils;
 public class TaiUtcDeltaSet extends GenericMessage {
 
     private static final String TAG = TaiUtcDeltaSet.class.getSimpleName();
-    private static final int TIME_ZONE_SET_PARAMS_LENGTH = 2;
     private static final int OP_CODE = ApplicationMessageOpCodes.TAI_UTC_DELTA_SET;
+    private static final int TAI_UTC_DELTA_SET_PARAMS_LENGTH = 2;
 
-    private final MeshTAITime taiTime;
+    private final TaiUtcDelta mNewDelta;
+	private final Long mTimeOfChange;
 
     /**
      * Constructs TimezoneSet message.
      *
      * @param appKey               application key for this message
-     * @param taiTime                boolean state of the GenericOnOffModel
+     * @param newDelta                boolean state of the GenericOnOffModel
      * @throws IllegalArgumentException if any illegal arguments are passed
      */
     @SuppressWarnings("WeakerAccess")
     public TaiUtcDeltaSet(@NonNull final byte[] appKey,
-                          final MeshTAITime taiTime) {
+                          final TaiUtcDelta newDelta,
+						  final Long timeOfChange) {
         super(appKey);
-        this.taiTime = taiTime;
+        this.mNewDelta = newDelta;
+		this.mTimeOfChange = timeOfChange;
 
         assembleMessageParameters();
     }
@@ -48,23 +51,14 @@ public class TaiUtcDeltaSet extends GenericMessage {
     @Override
     void assembleMessageParameters() {
         mAid = SecureUtils.calculateK4(mAppKey);
-        BitWriter bitWriter = new BitWriter(TIME_BIT_SIZE);
+        BitWriter bitWriter = new BitWriter(TAI_UTC_DELTA_SET_BIT_SIZE);
 
-        // The state is a uint8 value representing the valid range of -64 through +191 (i.e., 0x40 represents a value of 0 and 0xFF represents a value of 191).
-        bitWriter.write(taiTime.getTimeZoneOffset() + TIME_ZONE_START_RANGE, TIME_ZONE_OFFSET_BIT_SIZE);
-
-        // The valid range is -255 through +32512 (i.e., 0x00FF represents a value of 0 and 0x7FFF represents a value of 32512).
-        bitWriter.write(taiTime.getUtcDelta() + UTC_DELTA_START_RANGE, UTC_DELTA_BIT_SIZE);
-        if (taiTime.isTimeAuthority()) {
-            bitWriter.write(1, TIME_AUTHORITY_BIT_SIZE);
-        } else {
-            bitWriter.write(0, TIME_AUTHORITY_BIT_SIZE);
-        }
-        bitWriter.write(taiTime.getUncertainty(), UNCERTAINTY_BIT_SIZE);
-        bitWriter.write(taiTime.getSubSecond(), SUB_SECOND_BIT_SIZE);
-        bitWriter.write(taiTime.getTaiSeconds(), TAI_SECONDS_BIT_SIZE);
+		bitWriter.write(mTimeOfChange, TAI_SECONDS_BIT_SIZE);
+		bitWriter.write(0, PADDING_BIT_SIZE);
+		bitWriter.write(mNewDelta.getEncodedValue(), UTC_DELTA_BIT_SIZE);
 
         mParameters = ArrayUtils.reverseArray(bitWriter.toByteArray());
-
     }
+
+	static final int TAI_UTC_DELTA_SET_BIT_SIZE = TAI_SECONDS_BIT_SIZE + PADDING_BIT_SIZE + UTC_DELTA_BIT_SIZE;
 }
