@@ -38,7 +38,7 @@ import no.nordicsemi.android.meshprovisioner.utils.BitReader;
 public final class TaiUtcDeltaStatus extends GenericStatusMessage implements Parcelable {
 
     private static final String TAG = TaiUtcDeltaStatus.class.getSimpleName();
-    private static final int OP_CODE = ApplicationMessageOpCodes.TIME_STATUS;
+    private static final int OP_CODE = ApplicationMessageOpCodes.TAI_UTC_DELTA_STATUS;
 
 
 

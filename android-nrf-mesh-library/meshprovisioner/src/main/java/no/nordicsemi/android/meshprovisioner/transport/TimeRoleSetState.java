@@ -58,7 +58,7 @@ class TimeRoleSetState extends GenericMessageState {
 
     @Override
     public MessageState getState() {
-        return MessageState.TAI_UTC_GET_STATE;
+        return MessageState.TIME_ROLE_SET_STATE;
     }
 
     /**

@@ -58,7 +58,7 @@ class SchedulerActionSetState extends GenericMessageState {
 
     @Override
     public MessageState getState() {
-        return MessageState.SCHEDULER_ACTION_GET_STATE;
+        return MessageState.SCHEDULER_ACTION_SET_STATE;
     }
 
     /**

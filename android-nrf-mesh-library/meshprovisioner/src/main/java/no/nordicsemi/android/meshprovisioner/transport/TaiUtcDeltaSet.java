@@ -19,8 +19,8 @@ import no.nordicsemi.android.meshprovisioner.utils.SecureUtils;
 public class TaiUtcDeltaSet extends GenericMessage {
 
     private static final String TAG = TaiUtcDeltaSet.class.getSimpleName();
-    private static final int OP_CODE = ApplicationMessageOpCodes.TIME_ZONE_SET;
     private static final int TIME_ZONE_SET_PARAMS_LENGTH = 2;
+    private static final int OP_CODE = ApplicationMessageOpCodes.TAI_UTC_DELTA_SET;
 
     private final MeshTAITime taiTime;
 

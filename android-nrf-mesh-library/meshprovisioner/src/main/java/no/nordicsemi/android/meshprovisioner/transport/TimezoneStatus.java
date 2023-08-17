@@ -40,7 +40,7 @@ import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
 public final class TimezoneStatus extends GenericStatusMessage implements Parcelable {
 
     private static final String TAG = TimezoneStatus.class.getSimpleName();
-    private static final int OP_CODE = ApplicationMessageOpCodes.TIME_STATUS;
+    private static final int OP_CODE = ApplicationMessageOpCodes.TIME_ZONE_STATUS;
 
     private static final int TIME_ZONE_STATUS_LENGTH = 7;
     private TimeZoneOffset currentTimeZoneOffset = TimeZoneOffset.of((byte) 0x40);
