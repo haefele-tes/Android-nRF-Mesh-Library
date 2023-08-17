@@ -24,20 +24,13 @@ package no.nordicsemi.android.meshprovisioner.transport;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
-import no.nordicsemi.android.meshprovisioner.utils.ArrayUtils;
-import no.nordicsemi.android.meshprovisioner.utils.BitReader;
-import no.nordicsemi.android.meshprovisioner.utils.InterfaceAdapter;
-import no.nordicsemi.android.meshprovisioner.utils.MeshAddress;
-import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
 
 /**
  * To be used as a wrapper class for when creating the SchedulerStatus Message.

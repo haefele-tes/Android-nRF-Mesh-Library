@@ -5,17 +5,10 @@ import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TAI_SEC
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_AUTHORITY_BIT_SIZE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_BIT_SIZE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_ZONE_OFFSET_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_ZONE_START_RANGE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UNCERTAINTY_BIT_SIZE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UTC_DELTA_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UTC_DELTA_START_RANGE;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import android.util.Log;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 import no.nordicsemi.android.meshprovisioner.MeshTAITime;
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;

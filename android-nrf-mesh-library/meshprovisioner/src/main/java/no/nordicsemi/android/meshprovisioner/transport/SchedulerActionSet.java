@@ -4,11 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
 import no.nordicsemi.android.meshprovisioner.data.ScheduleEntry;
-import no.nordicsemi.android.meshprovisioner.data.TimeZoneOffset;
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
 import no.nordicsemi.android.meshprovisioner.utils.ArrayUtils;
 import no.nordicsemi.android.meshprovisioner.utils.BitWriter;

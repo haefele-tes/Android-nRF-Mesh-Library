@@ -1,18 +1,12 @@
 package no.nordicsemi.android.meshprovisioner.transport;
 
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.SUB_SECOND_BIT_SIZE;
+import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.PADDING_BIT_SIZE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TAI_SECONDS_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_AUTHORITY_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_ZONE_OFFSET_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TIME_ZONE_START_RANGE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UNCERTAINTY_BIT_SIZE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UTC_DELTA_BIT_SIZE;
-import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UTC_DELTA_START_RANGE;
 
 import androidx.annotation.NonNull;
 
-import no.nordicsemi.android.meshprovisioner.MeshTAITime;
+import no.nordicsemi.android.meshprovisioner.data.TaiUtcDelta;
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
 import no.nordicsemi.android.meshprovisioner.utils.ArrayUtils;
 import no.nordicsemi.android.meshprovisioner.utils.BitWriter;
