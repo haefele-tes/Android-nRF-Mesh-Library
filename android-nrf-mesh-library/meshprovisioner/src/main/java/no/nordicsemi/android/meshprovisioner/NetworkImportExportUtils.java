@@ -171,6 +171,7 @@ class NetworkImportExportUtils {
                 final Gson gson = gsonBuilder.create();
 
                 final String json = this.networkJson != null ? this.networkJson : readJsonStringFromUri();
+				Log.d(TAG, "Importing: " + json);
                 final MeshNetwork network = gson.fromJson(json, MeshNetwork.class);
                 if (network != null) {
                     this.network = network;

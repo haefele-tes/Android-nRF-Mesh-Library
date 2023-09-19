@@ -43,15 +43,19 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
         network.id = jsonObject.get("id").getAsString();
         network.version = jsonObject.get("version").getAsString();
         network.meshName = jsonObject.get("meshName").getAsString();
-        network.timestamp = Long.parseLong(jsonObject.get("timestamp").getAsString(), 16);
+        network.timestamp = 0; //Long.parseLong(jsonObject.get("timestamp").getAsString(), 16);
         network.netKeys = deserializeNetKeys(context, jsonObject.getAsJsonArray("netKeys"), network.meshUUID);
         network.appKeys = deserializeAppKeys(context, jsonObject.getAsJsonArray("appKeys"), network.meshUUID);
         network.provisioners = deserializeProvisioners(context, jsonObject.getAsJsonArray("provisioners"), network.meshUUID);
-        JsonElement unicastAddress = jsonObject.get("unicastAddress");
-        if (unicastAddress != null) {
+
+		// we currently do not have the phone listed as a node
+		// so what we do instead is to store the provisionerMeshAddress in the app db
+		// and inject it via this property
+        JsonElement provisionerMeshAddress = jsonObject.get("provisionerMeshAddress");
+        if (provisionerMeshAddress != null) {
             Provisioner firstProvisioner = network.provisioners.get(0);
             if (firstProvisioner != null) {
-                firstProvisioner.setProvisionerAddress(MeshParserUtils.hexToInt(unicastAddress.getAsString()));
+                firstProvisioner.setProvisionerAddress(provisionerMeshAddress.getAsInt());
             }
         }
         if (jsonObject.has("nodes"))
@@ -62,6 +66,8 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
         if (jsonObject.has("scenes"))
             network.scenes = deserializeScenes(jsonObject, network.meshUUID);
 
+		// we calculate the next available address here, probably will do this
+		// in app side
         network.unicastAddress = getNextAvailableAddress(network.nodes);
         populateNetworkKeys(network.getNodes(), network.getNetKeys());
         populateAddedAppKeysInNodes(network.getNodes(), network.getAppKeys());
@@ -121,8 +127,7 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
      * @return JsonElement
      */
     private JsonElement serializeNetKeys(final JsonSerializationContext context, final List<NetworkKey> networkKeys) {
-        final Type networkKey = new TypeToken<List<NetworkKey>>() {
-        }.getType();
+        final Type networkKey = new TypeToken<List<NetworkKey>>() {}.getType();
         return context.serialize(networkKeys, networkKey);
     }
 
@@ -135,8 +140,7 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
      * @return List of network keys
      */
     private List<NetworkKey> deserializeNetKeys(final JsonDeserializationContext context, final JsonArray json, final String meshUuid) {
-        final Type networkKey = new TypeToken<List<NetworkKey>>() {
-        }.getType();
+        final Type networkKey = new TypeToken<List<NetworkKey>>() {}.getType();
         final List<NetworkKey> networkKeys = context.deserialize(json, networkKey);
         for (NetworkKey key : networkKeys) {
             key.setMeshUuid(meshUuid);

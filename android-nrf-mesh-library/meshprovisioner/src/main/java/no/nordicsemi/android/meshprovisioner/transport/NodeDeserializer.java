@@ -42,7 +42,7 @@ public final class NodeDeserializer implements JsonSerializer<List<ProvisionedMe
             node.deviceKey = MeshParserUtils.toByteArray(jsonObject.get("deviceKey").getAsString());
             final int unicastAddress = Integer.parseInt(jsonObject.get("unicastAddress").getAsString(), 16);
             node.unicastAddress = unicastAddress;
-            final boolean security = jsonObject.get("security").getAsString().equals("high");
+            final boolean security = jsonObject.get("security").getAsString().equals("secure");
             node.security = security ? 1 : 0;
             node.mAddedNetworkKeyIndexes = deserializeNetKeyIndexes(jsonObject.get("netKeys").getAsJsonArray());
             node.isConfigured = jsonObject.get("configComplete").getAsBoolean();
@@ -98,11 +98,16 @@ public final class NodeDeserializer implements JsonSerializer<List<ProvisionedMe
                 node.mElements.putAll(elementMap);
             }
 
-            if (jsonObject.has("blacklisted")) {
-                node.setBlackListed(jsonObject.get("blacklisted").getAsBoolean());
+            if (jsonObject.has("excluded")) {
+                node.setBlackListed(jsonObject.get("excluded").getAsBoolean());
             }
 
-            node.nodeName = jsonObject.get("name").getAsString();
+			var optionalNodeName = jsonObject.get("name");
+			if (optionalNodeName != null) {
+				node.nodeName = optionalNodeName.getAsString();
+			} else {
+				node.nodeName = "";
+			}
             node.numberOfElements = node.mElements.size();
             nodes.add(node);
         }

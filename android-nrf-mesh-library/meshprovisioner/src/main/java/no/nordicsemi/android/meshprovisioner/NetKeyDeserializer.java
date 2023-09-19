@@ -49,8 +49,8 @@ final class NetKeyDeserializer implements JsonSerializer<List<NetworkKey>>, Json
             final byte[] key = MeshParserUtils.toByteArray(jsonObject.get("key").getAsString());
             final byte[] oldKey = getOldKey(jsonObject);
             final int phase = jsonObject.get("phase").getAsInt();
-            final boolean minSecurity = jsonObject.get("minSecurity").getAsString().equalsIgnoreCase("low");
-            final long timestamp = Long.parseLong(jsonObject.get("timestamp").getAsString(), 16);
+            final boolean minSecurity = jsonObject.get("minSecurity").getAsString().equalsIgnoreCase("insecure");
+            final long timestamp = 0;// Long.parseLong(jsonObject.get("timestamp").getAsString(), 16);
 
             final NetworkKey networkKey = new NetworkKey(index, key);
             networkKey.setName(name);

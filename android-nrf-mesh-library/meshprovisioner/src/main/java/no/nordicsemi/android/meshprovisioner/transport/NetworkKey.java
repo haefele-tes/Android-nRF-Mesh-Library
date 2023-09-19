@@ -1,5 +1,7 @@
 package no.nordicsemi.android.meshprovisioner.transport;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -18,8 +20,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import no.nordicsemi.android.meshprovisioner.MeshNetwork;
-
-import static androidx.room.ForeignKey.CASCADE;
 
 /**
  * Wrapper class for network key

@@ -89,12 +89,13 @@ public final class MeshModelListDeserializer implements JsonSerializer<List<Mesh
         final int ttl = publish.get("ttl").getAsByte();
 
         //Unpack publish period
-        final int period = publish.get("period").getAsInt();
-        final int publicationSteps = period >> 6;
-        final int publicationResolution = period & 0x03;
+        final JsonObject period = publish.get("period").getAsJsonObject();
+        final int publicationSteps = period.get("numberOfSteps").getAsInt();
+        final int publicationResolution = period.get("resolution").getAsInt();
 
-        final int publishRetransmitCount = publish.get("retransmit").getAsJsonObject().get("count").getAsInt();
-        final int publishRetransmitIntervalSteps = publish.get("retransmit").getAsJsonObject().get("interval").getAsInt();
+		final JsonObject retransmit = publish.get("retransmit").getAsJsonObject();
+        final int publishRetransmitCount = retransmit.get("count").getAsInt();
+        final int publishRetransmitIntervalSteps = retransmit.get("interval").getAsInt();
 
         final boolean credentials = publish.get("credentials").getAsInt() == 1;
 
@@ -137,7 +138,7 @@ public final class MeshModelListDeserializer implements JsonSerializer<List<Mesh
 
         final JsonArray jsonArray = jsonObject.get("bind").getAsJsonArray();
         for (int i = 0; i < jsonArray.size(); i++) {
-            final int index = Integer.parseInt(jsonArray.get(i).getAsString(), 16);
+            final int index = jsonArray.get(i).getAsInt();
             boundKeyIndexes.add(index);
         }
         return boundKeyIndexes;
