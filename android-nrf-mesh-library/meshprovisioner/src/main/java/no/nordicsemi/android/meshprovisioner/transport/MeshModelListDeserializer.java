@@ -102,6 +102,7 @@ public final class MeshModelListDeserializer implements JsonSerializer<List<Mesh
         //Set the values
         final PublicationSettings publicationSettings = new PublicationSettings();
         publicationSettings.setPublishAddress(publishAddress);
+		publicationSettings.setAppKeyIndex(index);
         publicationSettings.setPublishTtl(ttl);
         publicationSettings.setPublicationSteps(publicationSteps);
         publicationSettings.setPublicationResolution(publicationResolution);
