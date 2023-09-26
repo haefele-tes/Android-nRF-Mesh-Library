@@ -49,9 +49,9 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
         network.provisioners = deserializeProvisioners(context, jsonObject.getAsJsonArray("provisioners"), network.meshUUID);
 
 		// we currently do not have the phone listed as a node
-		// so what we do instead is to store the provisionerMeshAddress in the app db
+		// so what we do instead is to store the unicastAddress in the app db
 		// and inject it via this property
-        JsonElement provisionerMeshAddress = jsonObject.get("provisionerMeshAddress");
+        JsonElement provisionerMeshAddress = jsonObject.get("unicastAddress");
         if (provisionerMeshAddress != null) {
             Provisioner firstProvisioner = network.provisioners.get(0);
             if (firstProvisioner != null) {
