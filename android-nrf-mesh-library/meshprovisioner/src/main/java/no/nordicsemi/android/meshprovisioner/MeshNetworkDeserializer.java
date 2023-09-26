@@ -55,7 +55,7 @@ public final class MeshNetworkDeserializer implements JsonSerializer<MeshNetwork
         if (provisionerMeshAddress != null) {
             Provisioner firstProvisioner = network.provisioners.get(0);
             if (firstProvisioner != null) {
-                firstProvisioner.setProvisionerAddress(provisionerMeshAddress.getAsInt());
+                firstProvisioner.setProvisionerAddress(MeshParserUtils.hexToInt(provisionerMeshAddress.getAsString()));
             }
         }
         if (jsonObject.has("nodes"))
