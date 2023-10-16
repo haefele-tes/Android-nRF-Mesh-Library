@@ -971,13 +971,10 @@ public class MeshManagerApi implements MeshMngrApi {
         @Override
         public void onNodeProvisioned(final ProvisionedMeshNode meshNode) {
             updateProvisionedNodeList(meshNode);
-            //incrementUnicastAddress(meshNode.getUnicastAddress(), meshNode.getNumberOfElements());
-            mMeshNetwork.unicastAddress = mMeshNetwork.nextAvailableUnicastAddress(meshNode.getNumberOfElements(), mMeshNetwork.getSelectedProvisioner());
             //Set the mesh network uuid to the node so we can identify nodes belonging to a network
             meshNode.setMeshUuid(mMeshNetwork.getMeshUUID());
             mMeshNetworkDb.insertNode(mProvisionedNodeDao, meshNode);
-            mMeshNetworkDb.updateProvisioner(mProvisionerDao,
-                    mMeshNetwork.getSelectedProvisioner());
+            mMeshNetworkDb.updateProvisioner(mProvisionerDao, mMeshNetwork.getSelectedProvisioner());
             mTransportCallbacks.onNetworkUpdated(mMeshNetwork);
         }
 
