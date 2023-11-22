@@ -41,7 +41,7 @@ abstract class Message implements Parcelable {
     /**
      * ttl, time to live
      **/
-    private int ttl = 5;
+    private int ttl = 8;
     /**
      * src, source address
      **/
