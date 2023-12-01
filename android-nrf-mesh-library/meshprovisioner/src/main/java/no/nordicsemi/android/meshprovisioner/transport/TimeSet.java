@@ -70,11 +70,14 @@ public class TimeSet extends GenericMessage {
 
         mParameters = ArrayUtils.reverseArray(bitWriter.toByteArray());
     }
-		// TTL for time set should be 0 to prevent accumulitive errors
+
+    // TTL for time set should be 1 to prevent accumulitive errors
     @Override
     public Message getMessage() {
         var message = super.getMessage();
-        message.setTtl(0);
+        if (message != null) {
+            message.setTtl(0);
+        }
         return message;
     }
 }
