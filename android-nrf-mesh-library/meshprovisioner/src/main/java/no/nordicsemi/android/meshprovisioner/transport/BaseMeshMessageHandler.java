@@ -369,6 +369,18 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     final SchedulerActionSetState schedulerActionSetState = (SchedulerActionSetState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, schedulerActionSetState.getMeshMessage(), mMeshTransport, this));
                     break;
+                case BLOB_TRANSFER_START_STATE:
+                    final BlobTransferStartState blobTransferStartState = (BlobTransferStartState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobTransferStartState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case BLOB_BLOCK_START_STATE:
+                    final BlobBlockStartState blobBlockStartState = (BlobBlockStartState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobBlockStartState.getMeshMessage(), mMeshTransport, this));
+                    break;
+                case BLOB_CHUNK_TRANSFER_STATE:
+                    final BlobChunkTransferState blobChunkTransferState = (BlobChunkTransferState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobChunkTransferState.getMeshMessage(), mMeshTransport, this));
+                    break;
             }
         }
     }
@@ -962,6 +974,24 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             schedulerActionSetUnacknowledgedStateState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = schedulerActionSetUnacknowledgedStateState;
             schedulerActionSetUnacknowledgedStateState.executeSend();
+        } else if (genericMessage instanceof BLOBTransferStart) {
+            final BLOBTransferStartState blobTransferStartState = new BLOBTransferStartState(mContext, src, dst, (BLOBTransferStart) genericMessage, mMeshTransport, this);
+            blobTransferStartState.setTransportCallbacks(mInternalTransportCallbacks);
+            blobTransferStartState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = blobTransferStartState;
+            blobTransferStartState.executeSend();
+        } else if (genericMessage instanceof BLOBBlockStart) {
+            final BLOBBlockStartState blobBlockStartState = new BLOBBlockStartState(mContext, src, dst, (BLOBBlockStart) genericMessage, mMeshTransport, this);
+            blobBlockStartState.setTransportCallbacks(mInternalTransportCallbacks);
+            blobBlockStartState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = blobBlockStartState;
+            blobBlockStartState.executeSend();
+        } else if (genericMessage instanceof BLOBChunkTransfer) {
+            final BLOBChunkTransferState blobChunkTransferState = new BLOBChunkTransferState(mContext, src, dst, (BLOBChunkTransfer) genericMessage, mMeshTransport, this);
+            blobChunkTransferState.setTransportCallbacks(mInternalTransportCallbacks);
+            blobChunkTransferState.setStatusCallbacks(mStatusCallbacks);
+            mMeshMessageState = blobChunkTransferState;
+            blobChunkTransferState.executeSend();
         }
         // TIMING
          else {

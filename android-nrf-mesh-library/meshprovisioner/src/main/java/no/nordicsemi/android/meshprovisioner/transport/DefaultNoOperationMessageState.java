@@ -106,6 +106,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     final SchedulerActionStatus schedulerActionStatus = new SchedulerActionStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(schedulerActionStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), schedulerActionStatus);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.BLOB_BLOCK_STATUS) {
+                    final BLOBBlockStatus blobBlockStatus = new BLOBBlockStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(blobBlockStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), blobBlockStatus);
                 }
                 break;
             case 2:
@@ -249,6 +253,10 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                     final SchedulerStatus schedulerStatus = new SchedulerStatus(message);
                     mInternalTransportCallbacks.updateMeshNetwork(schedulerStatus);
                     mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), schedulerStatus);
+                } else if (message.getOpCode() == ApplicationMessageOpCodes.BLOB_TRANSFER_STATUS) {
+                    final BLOBTransferStatus blobTransferStatus = new BLOBTransferStatus(message);
+                    mInternalTransportCallbacks.updateMeshNetwork(blobTransferStatus);
+                    mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), blobTransferStatus);
                 }
                 else {
                     Log.v(TAG, "Unknown Access PDU Received: " + MeshParserUtils.bytesToHex(accessPayload, false));

@@ -324,4 +324,17 @@ public class ApplicationMessageOpCodes {
     public static final int TIME_ZONE_GET = 0x823B;
     public static final int TIME_ZONE_SET = 0x823C;
     public static final int TIME_ZONE_STATUS = 0x823D;
+
+    public static final int BLOB_CHUNK_TRANSFER = 0x66;
+    public static final int BLOB_BLOCK_STATUS = 0x67;
+    public static final int BLOB_PARTIAL_BLOCK_REPORT = 0x68;
+
+    public static final int BLOB_TRANSFER_GET = 0x8300;
+    public static final int BLOB_TRANSFER_START = 0x8301;
+    public static final int BLOB_TRANSFER_CANCEL = 0x8302;
+    public static final int BLOB_TRANSFER_STATUS = 0x8303;
+    public static final int BLOB_BLOCK_START = 0x8304;
+    public static final int BLOB_BLOCK_GET = 0x8305;
+    public static final int BLOB_INFORMATION_GET = 0x8306;
+    public static final int BLOB_INFORMATION_STATUS = 0x8307;
 }
