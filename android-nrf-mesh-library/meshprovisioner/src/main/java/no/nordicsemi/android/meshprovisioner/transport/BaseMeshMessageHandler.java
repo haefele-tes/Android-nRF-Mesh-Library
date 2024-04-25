@@ -370,15 +370,15 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, schedulerActionSetState.getMeshMessage(), mMeshTransport, this));
                     break;
                 case BLOB_TRANSFER_START_STATE:
-                    final BlobTransferStartState blobTransferStartState = (BlobTransferStartState) mMeshMessageState;
+                    final BLOBTransferStartState blobTransferStartState = (BLOBTransferStartState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobTransferStartState.getMeshMessage(), mMeshTransport, this));
                     break;
                 case BLOB_BLOCK_START_STATE:
-                    final BlobBlockStartState blobBlockStartState = (BlobBlockStartState) mMeshMessageState;
+                    final BLOBBlockStartState blobBlockStartState = (BLOBBlockStartState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobBlockStartState.getMeshMessage(), mMeshTransport, this));
                     break;
                 case BLOB_CHUNK_TRANSFER_STATE:
-                    final BlobChunkTransferState blobChunkTransferState = (BlobChunkTransferState) mMeshMessageState;
+                    final BLOBChunkTransferState blobChunkTransferState = (BLOBChunkTransferState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobChunkTransferState.getMeshMessage(), mMeshTransport, this));
                     break;
             }

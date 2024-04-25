@@ -4,7 +4,12 @@ import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.PADDING
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.TAI_SECONDS_BIT_SIZE;
 import static no.nordicsemi.android.meshprovisioner.transport.TimeStatus.UTC_DELTA_BIT_SIZE;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import no.nordicsemi.android.meshprovisioner.data.TaiUtcDelta;
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
@@ -22,8 +27,8 @@ public class BLOBBlockStart extends GenericMessage {
     private static final int OP_CODE = ApplicationMessageOpCodes.BLOB_BLOCK_START;
     private static final int BLOB_BLOCK_START_PARAMS_LENGTH = 4;
 
-    private final Integer mBlockNumber;
-    private final Integer mChunkSize;
+    private final int mBlockNumber;
+    private final int mChunkSize;
 
     /**
      * Constructs TimezoneSet message.

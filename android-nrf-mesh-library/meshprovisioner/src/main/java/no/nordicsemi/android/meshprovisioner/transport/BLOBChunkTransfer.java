@@ -22,10 +22,11 @@ public class BLOBChunkTransfer extends GenericMessage {
      * Constructs BLOBChunkTransfer message.
      */
     public BLOBChunkTransfer(
+		@NonNull final byte[] appKey,
         @NonNull final int chunkNumber,
-        @NonNull final byte[] chunkData,
+        @NonNull final byte[] chunkData
         ) throws IllegalArgumentException {
-        super();
+        super(appKey);
         this.mChunkNumber = chunkNumber;
         this.mChunkData = chunkData;
 

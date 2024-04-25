@@ -30,108 +30,64 @@ import android.util.Log;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import no.nordicsemi.android.meshprovisioner.opcodes.ConfigMessageOpCodes;
+import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
+import no.nordicsemi.android.meshprovisioner.utils.MeshAddress;
 import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
 
 /**
- * To be used as a wrapper class for when creating the BLOBBlockStatus Message.
+ * To be used as a wrapper class for when creating the GenericOnOffStatus Message.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class BLOBBlockStatus extends ConfigStatusMessage implements Parcelable {
+public final class BLOBBlockStatus extends GenericStatusMessage implements Parcelable {
 
-    private static final String TAG = BLOBBlockStatus.class.getSimpleName();
-    private static final int OP_CODE = ConfigMessageOpCodes.BLOB_BLOCK_STATUS;
-
-    private int mStatus;
-    private int mFormat;
-    private int mBlockNumber;
-    private int mChunkSize;
-    // private int mBlockSizeLog;
-    // private int mTransferMTUSize;
+	private static final String TAG = GenericOnOffStatus.class.getSimpleName();
+	private static final int OP_CODE = ApplicationMessageOpCodes.BLOB_BLOCK_STATUS;
 
 
-    public static final Creator<BLOBBlockStatus> CREATOR = new Creator<BLOBBlockStatus>() {
-        @Override
-        public BLOBBlockStatus createFromParcel(Parcel in) {
-            final AccessMessage message = in.readParcelable(AccessMessage.class.getClassLoader());
-            //noinspection ConstantConditions
-            return new BLOBBlockStatus(message);
-        }
+	private static final Creator<GenericOnOffStatus> CREATOR = new Creator<GenericOnOffStatus>() {
+		@Override
+		public GenericOnOffStatus createFromParcel(Parcel in) {
+			final AccessMessage message = in.readParcelable(AccessMessage.class.getClassLoader());
+			//noinspection ConstantConditions
+			return new GenericOnOffStatus(message);
+		}
 
-        @Override
-        public BLOBBlockStatus[] newArray(int size) {
-            return new BLOBBlockStatus[size];
-        }
-    };
+		@Override
+		public GenericOnOffStatus[] newArray(int size) {
+			return new GenericOnOffStatus[size];
+		}
+	};
 
-    /**
-     * Constructs the BLOBBlockStatus mMessage.
-     *
-     * @param message Access Message
-     */
-    public BLOBBlockStatus(@NonNull final AccessMessage message) {
-        super(message);
-        this.mParameters = message.getParameters();
-        parseStatusParameters();
-    }
+	/**
+	 * Constructs the GenericOnOffStatus mMessage.
+	 *
+	 * @param message Access Message
+	 */
+	public BLOBBlockStatus(@NonNull final AccessMessage message) {
+		super(message);
+		this.mParameters = message.getParameters();
+		parseStatusParameters();
+	}
 
-    @Override
-    final void parseStatusParameters() {
-        // mStatusCode = mParameters[0];
-        // mStatusCodeName = getStatusCodeName(mStatusCode);
+	@Override
+	void parseStatusParameters() {
+		Log.v(TAG, "Received block status from: " + MeshAddress.formatAddress(mMessage.getSrc(), true));
 
-        // final byte[] netKeyIndex = new byte[]{(byte) (mParameters[2] & 0x0F), mParameters[1]};
-        // mNetKeyIndex = ByteBuffer.wrap(netKeyIndex).order(ByteOrder.BIG_ENDIAN).getShort();
+	}
 
-        // final byte[] appKeyIndex = new byte[]{(byte) ((mParameters[3] & 0xF0) >> 4), (byte) (mParameters[3] << 4 | ((mParameters[2] & 0xF0) >> 4))};
-        // mAppKeyIndex = ByteBuffer.wrap(appKeyIndex).order(ByteOrder.BIG_ENDIAN).getShort();
+	@Override
+	int getOpCode() {
+		return OP_CODE;
+	}
 
-        // Log.v(TAG, "Status code: " + mStatusCode);
-        // Log.v(TAG, "Status message: " + mStatusCodeName);
-        // Log.v(TAG, "Net key index: " + MeshParserUtils.bytesToHex(netKeyIndex, false));
-        // Log.v(TAG, "App key index: " + MeshParserUtils.bytesToHex(appKeyIndex, false));
-    }
+	@Override
+	public int describeContents() {
+		return 0;
+	}
 
-    @Override
-    public final int getOpCode() {
-        return OP_CODE;
-    }
-
-    // /**
-    //  * Returns the global index of the net key.
-    //  *
-    //  * @return netkey index
-    //  */
-    // public final int getNetKeyIndex() {
-    //     return mNetKeyIndex;
-    // }
-
-    // /**
-    //  * Returns the global app key index.
-    //  *
-    //  * @return appkey index
-    //  */
-    // public final int getAppKeyIndex() {
-    //     return mAppKeyIndex;
-    // }
-
-    // /**
-    //  * Returns if the message was successful
-    //  *
-    //  * @return true if the message was successful or false otherwise
-    //  */
-    // public final boolean isSuccessful() {
-    //     return mStatusCode == 0x00;
-    // }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        final AccessMessage message = (AccessMessage) mMessage;
-        dest.writeParcelable(message, flags);
-    }
+	@Override
+	public void writeToParcel(final Parcel dest, final int flags) {
+		final AccessMessage message = (AccessMessage) mMessage;
+		dest.writeParcelable(message, flags);
+	}
 }

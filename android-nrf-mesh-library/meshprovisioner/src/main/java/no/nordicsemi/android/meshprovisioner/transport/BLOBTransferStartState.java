@@ -12,7 +12,7 @@ import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
  * State class for handling BLOBTransferStart messages.
  */
 @SuppressWarnings("unused")
-class BLOBTransferStart extends GenericMessageState {
+class BLOBTransferStartState extends GenericMessageState {
 
     private static final String TAG = BLOBTransferStart.class.getSimpleName();
 
@@ -28,6 +28,11 @@ class BLOBTransferStart extends GenericMessageState {
         super(context, src, dst, blobTransferStart, meshTransport, callbacks);
         createAccessMessage();
     }
+
+	@Override
+	public MessageState getState() {
+		return MessageState.BLOB_TRANSFER_START_STATE;
+	}
 
     /**
      * Creates the access message to be sent to the node

@@ -94,6 +94,7 @@ public class SigModelParser {
     private static final short LIGHT_LC_SERVER = 0x130F;
     private static final short LIGHT_LC_SETUP_SERVER = 0x1310;
     private static final short LIGHT_LC_CLIENT = 0x1311;
+	private static final short BLOB_BLOB_TRANSFER_SERVER = 0x1400;
 
     /**
      * Returns the Bluetooth sig model based on the model id.
@@ -215,6 +216,8 @@ public class SigModelParser {
                 return new LightLcSetupServer(modelId);
             case LIGHT_LC_CLIENT:
                 return new LightLightnessClient(modelId);
+			case BLOB_BLOB_TRANSFER_SERVER:
+				return new BLOBTransferServerModel(modelId);
             default: {
                 Log.v(TAG, "Model ID: " + String.format(Locale.US, "%04X", modelId));
                 return null;

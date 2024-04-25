@@ -25,13 +25,14 @@ public class BLOBTransferStart extends GenericMessage {
      * Constructs BLOBTransferStart message.
      */
     public BLOBTransferStart(
+		@NonNull final byte[] appKey,
         @NonNull final int transferMode,
         @NonNull final byte[] blobId,
         @NonNull final int blobSize,
         @NonNull final int blockSizeLog,
         @NonNull final int clientMTUSize
         ) throws IllegalArgumentException {
-        super();
+        super(appKey);
         this.mTransferMode = transferMode;
         this.mBlobId = blobId;
         this.mBlobSize = blobSize;
