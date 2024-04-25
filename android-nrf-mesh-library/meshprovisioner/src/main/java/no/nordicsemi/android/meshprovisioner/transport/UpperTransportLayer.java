@@ -38,6 +38,7 @@ import no.nordicsemi.android.meshprovisioner.utils.SecureUtils;
 
 abstract class UpperTransportLayer extends AccessLayer {
     private static final int PROXY_CONFIG_OPCODE_LENGTH = 1;
+    static final int MAX_UNSEGMENTED_ACCESS_PAYLOAD_LENGTH = 15;
     static final int MAX_SEGMENTED_ACCESS_PAYLOAD_LENGTH = 12;
     static final int MAX_UNSEGMENTED_CONTROL_PAYLOAD_LENGTH = 11;
     static final int MAX_SEGMENTED_CONTROL_PAYLOAD_LENGTH = 8;
@@ -52,7 +53,6 @@ abstract class UpperTransportLayer extends AccessLayer {
     static final int PAD_NETWORK_NONCE = 0x00;
     static final int PAD_PROXY_NONCE = 0x00;
     private static final int APPLICATION_KEY_IDENTIFIER = 0; //Identifies that the device key is to be used
-    private static final int MAX_UNSEGMENTED_ACCESS_PAYLOAD_LENGTH = 15;
     private static final int NONCE_TYPE_APPLICATION = 0x01;
     private static final int NONCE_TYPE_DEVICE = 0x02;
     private static final int PAD_APPLICATION_DEVICE_NONCE = 0b0000000;
