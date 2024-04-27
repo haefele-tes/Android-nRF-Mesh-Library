@@ -32,7 +32,7 @@ class BLOBBlockStartState extends GenericMessageState {
 
     @Override
     public MessageState getState() {
-        return MessageState.TAI_UTC_SET_STATE;
+        return MessageState.BLOB_BLOCK_START_STATE;
     }
 
     /**

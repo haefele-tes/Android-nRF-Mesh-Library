@@ -3,6 +3,9 @@ package no.nordicsemi.android.meshprovisioner.transport;
 
 import androidx.annotation.NonNull;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 import no.nordicsemi.android.meshprovisioner.opcodes.ApplicationMessageOpCodes;
 import no.nordicsemi.android.meshprovisioner.utils.SecureUtils;
 
@@ -15,7 +18,7 @@ public class BLOBChunkTransfer extends GenericMessage {
     private static final String TAG = BLOBChunkTransfer.class.getSimpleName();
     private static final int OP_CODE = ApplicationMessageOpCodes.BLOB_CHUNK_TRANSFER;
 
-    private final Integer mChunkNumber;
+    private final int mChunkNumber;
     private final byte[] mChunkData;
 
     /**
@@ -40,6 +43,12 @@ public class BLOBChunkTransfer extends GenericMessage {
 
     @Override
     void assembleMessageParameters() {
-        mAid = SecureUtils.calculateK4(mAppKey);
+		mAid = SecureUtils.calculateK4(mAppKey);
+		final ByteBuffer paramsBuffer = ByteBuffer.allocate(2 + mChunkData.length).order(ByteOrder.LITTLE_ENDIAN);
+		paramsBuffer.putShort((short) this.mChunkNumber);
+		for (byte mChunkDatum : this.mChunkData) {
+			paramsBuffer.put((byte) mChunkDatum);
+		}
+		mParameters = paramsBuffer.array();
     }
 }

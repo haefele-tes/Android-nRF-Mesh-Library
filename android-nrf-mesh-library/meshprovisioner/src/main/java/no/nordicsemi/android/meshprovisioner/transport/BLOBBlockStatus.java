@@ -40,21 +40,21 @@ import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class BLOBBlockStatus extends GenericStatusMessage implements Parcelable {
 
-	private static final String TAG = GenericOnOffStatus.class.getSimpleName();
+	private static final String TAG = BLOBBlockStatus.class.getSimpleName();
 	private static final int OP_CODE = ApplicationMessageOpCodes.BLOB_BLOCK_STATUS;
 
 
-	private static final Creator<GenericOnOffStatus> CREATOR = new Creator<GenericOnOffStatus>() {
+	private static final Creator<BLOBBlockStatus> CREATOR = new Creator<BLOBBlockStatus>() {
 		@Override
-		public GenericOnOffStatus createFromParcel(Parcel in) {
+		public BLOBBlockStatus createFromParcel(Parcel in) {
 			final AccessMessage message = in.readParcelable(AccessMessage.class.getClassLoader());
 			//noinspection ConstantConditions
-			return new GenericOnOffStatus(message);
+			return new BLOBBlockStatus(message);
 		}
 
 		@Override
-		public GenericOnOffStatus[] newArray(int size) {
-			return new GenericOnOffStatus[size];
+		public BLOBBlockStatus[] newArray(int size) {
+			return new BLOBBlockStatus[size];
 		}
 	};
 

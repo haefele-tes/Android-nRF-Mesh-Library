@@ -31,14 +31,14 @@ class BLOBChunkTransferState extends GenericMessageState {
 
 	@Override
 	public MessageState getState() {
-		return MessageState.BLOB_TRANSFER_START_STATE;
+		return MessageState.BLOB_CHUNK_TRANSFER_STATE;
 	}
 
 	/**
 	 * Creates the access message to be sent to the node
 	 */
 	private void createAccessMessage() {
-		final BLOBTransferStart blobTransferStart = (BLOBTransferStart) mMeshMessage;
+		final BLOBChunkTransfer blobTransferStart = (BLOBChunkTransfer) mMeshMessage;
 		final byte[] key = blobTransferStart.getAppKey();
 		final int akf = blobTransferStart.getAkf();
 		final int aid = blobTransferStart.getAid();
@@ -51,7 +51,7 @@ class BLOBChunkTransferState extends GenericMessageState {
 
 	@Override
 	public void executeSend() {
-		Log.v(TAG, "Sending transfer start");
+		Log.v(TAG, "Sending chunk transfer");
 		super.executeSend();
 
 		if (message.getNetworkPdu().size() > 0) {
