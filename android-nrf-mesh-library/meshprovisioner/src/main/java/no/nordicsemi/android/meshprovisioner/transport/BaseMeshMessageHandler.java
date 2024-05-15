@@ -377,6 +377,10 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     final BLOBBlockStartState blobBlockStartState = (BLOBBlockStartState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobBlockStartState.getMeshMessage(), mMeshTransport, this));
                     break;
+				case BLOB_BLOCK_GET_STATE:
+					final BLOBBlockGetState blobBlockGetState = (BLOBBlockGetState) mMeshMessageState;
+					switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobBlockGetState.getMeshMessage(), mMeshTransport, this));
+					break;
                 case BLOB_CHUNK_TRANSFER_STATE:
                     final BLOBChunkTransferState blobChunkTransferState = (BLOBChunkTransferState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobChunkTransferState.getMeshMessage(), mMeshTransport, this));
@@ -986,7 +990,13 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
             blobBlockStartState.setStatusCallbacks(mStatusCallbacks);
             mMeshMessageState = blobBlockStartState;
             blobBlockStartState.executeSend();
-        } else if (genericMessage instanceof BLOBChunkTransfer) {
+        } else if (genericMessage instanceof BLOBBlockGet) {
+			final BLOBBlockGetState blobBlockGetState = new BLOBBlockGetState(mContext, src, dst, (BLOBBlockGet) genericMessage, mMeshTransport, this);
+			blobBlockGetState.setTransportCallbacks(mInternalTransportCallbacks);
+			blobBlockGetState.setStatusCallbacks(mStatusCallbacks);
+			mMeshMessageState = blobBlockGetState;
+			blobBlockGetState.executeSend();
+		} else if (genericMessage instanceof BLOBChunkTransfer) {
             final BLOBChunkTransferState blobChunkTransferState = new BLOBChunkTransferState(mContext, src, dst, (BLOBChunkTransfer) genericMessage, mMeshTransport, this);
             blobChunkTransferState.setTransportCallbacks(mInternalTransportCallbacks);
             blobChunkTransferState.setStatusCallbacks(mStatusCallbacks);

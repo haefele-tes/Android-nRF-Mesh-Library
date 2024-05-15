@@ -44,6 +44,12 @@ public final class BLOBBlockStatus extends GenericStatusMessage implements Parce
 	private static final int OP_CODE = ApplicationMessageOpCodes.BLOB_BLOCK_STATUS;
 
 
+	private int status;
+	private int format;
+	private int blockNumber;
+	private int chunkSize;
+	private byte[] missingChunks;
+
 	private static final Creator<BLOBBlockStatus> CREATOR = new Creator<BLOBBlockStatus>() {
 		@Override
 		public BLOBBlockStatus createFromParcel(Parcel in) {
@@ -71,8 +77,21 @@ public final class BLOBBlockStatus extends GenericStatusMessage implements Parce
 
 	@Override
 	void parseStatusParameters() {
-		Log.v(TAG, "Received block status from: " + MeshAddress.formatAddress(mMessage.getSrc(), true));
 
+		final ByteBuffer buffer = ByteBuffer.wrap(mParameters).order(ByteOrder.LITTLE_ENDIAN);
+		int statusFormat = (buffer.get() & 0xFF);
+		this.status = statusFormat >> 4;
+		// 2 bits for the format
+		this.format = statusFormat & 0x03;
+
+		this.blockNumber = buffer.getShort();
+		this.chunkSize = buffer.getShort();
+
+		// missing chunks are an array
+		this.missingChunks = new byte[buffer.remaining()];
+		buffer.get(this.missingChunks);
+
+		Log.v(TAG, "Received block status from: " + MeshAddress.formatAddress(mMessage.getSrc(), true) + " status: " + status + " format: " + format + " block number: " + blockNumber + " chunk size: " + chunkSize + " missing chunks: " + MeshParserUtils.bytesToHex(missingChunks, false));
 	}
 
 	@Override
@@ -89,5 +108,25 @@ public final class BLOBBlockStatus extends GenericStatusMessage implements Parce
 	public void writeToParcel(final Parcel dest, final int flags) {
 		final AccessMessage message = (AccessMessage) mMessage;
 		dest.writeParcelable(message, flags);
+	}
+
+	public final int getStatus() {
+		return status;
+	}
+
+	public final int getFormat() {
+		return format;
+	}
+
+	public final int getBlockNumber() {
+		return blockNumber;
+	}
+
+	public final int getChunkSize() {
+		return chunkSize;
+	}
+
+	public final byte[] getMissingChunks() {
+		return missingChunks;
 	}
 }
