@@ -385,6 +385,11 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
                     final BLOBChunkTransferState blobChunkTransferState = (BLOBChunkTransferState) mMeshMessageState;
                     switchToNoOperationState(new DefaultNoOperationMessageState(mContext, blobChunkTransferState.getMeshMessage(), mMeshTransport, this));
                     break;
+                case GENERIC_ACCESS_MESSAGE_STATE:
+					// TODO what is this state variable for?
+					final GenericAccessMessageState accessMessageState = (GenericAccessMessageState) mMeshMessageState;
+                    switchToNoOperationState(new DefaultNoOperationMessageState(mContext, accessMessageState.getMeshMessage(), mMeshTransport, this));
+                    break;
             }
         }
     }
@@ -620,7 +625,13 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
      * @param genericMessage Mesh message containing the message opcode and message parameters.
      */
     private void sendAppMeshMessage(final int src, final int dst, @NonNull final GenericMessage genericMessage) {
-        if (genericMessage instanceof GenericOnOffGet) {
+        if (genericMessage instanceof GenericAccessMessage) {
+			final GenericAccessMessageState genericAccessMessageState = new GenericAccessMessageState(mContext, src, dst, (GenericAccessMessage) genericMessage, mMeshTransport, this);
+			genericAccessMessageState.setTransportCallbacks(mInternalTransportCallbacks);
+			genericAccessMessageState.setStatusCallbacks(mStatusCallbacks);
+			mMeshMessageState = genericAccessMessageState;
+			genericAccessMessageState.executeSend();
+		} else if (genericMessage instanceof GenericOnOffGet) {
             final GenericOnOffGetState genericOnOffGetState = new GenericOnOffGetState(mContext, src, dst, (GenericOnOffGet) genericMessage, mMeshTransport, this);
             genericOnOffGetState.setTransportCallbacks(mInternalTransportCallbacks);
             genericOnOffGetState.setStatusCallbacks(mStatusCallbacks);
