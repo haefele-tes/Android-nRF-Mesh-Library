@@ -175,6 +175,8 @@ abstract class MeshMessageState implements LowerTransportLayerCallbacks {
 
 
 
+		// Generic Access message
+		GENERIC_ACCESS_MESSAGE_STATE(50),
         //Application message States
         GENERIC_USER_PROPERTY_GET_STATE(199),
         GENERIC_ON_OFF_GET_STATE(200),

@@ -75,6 +75,7 @@ class DefaultNoOperationMessageState extends MeshMessageState {
 
         Log.v(TAG, "parsing access message: " + MeshParserUtils.bytesToHex(accessPayload, true));
 
+
         //OpCode length
         switch (opCodeLength) {
             case 0:
@@ -279,6 +280,8 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                 mMeshStatusCallbacks.onUnknownPduReceived(message.getSrc(), message.getAccessPdu());
                 break;
         }
+				// Also notify of all messages.
+				mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), new GenericAccessMessageStatus(message));
     }
 
     /**

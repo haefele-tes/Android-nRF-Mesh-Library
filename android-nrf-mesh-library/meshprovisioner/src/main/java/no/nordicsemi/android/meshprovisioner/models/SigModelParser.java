@@ -215,9 +215,9 @@ public class SigModelParser {
             case LIGHT_LC_SETUP_SERVER:
                 return new LightLcSetupServer(modelId);
             case LIGHT_LC_CLIENT:
-                return new LightLightnessClient(modelId);
-			case BLOB_BLOB_TRANSFER_SERVER:
-				return new BLOBTransferServerModel(modelId);
+                return new LightLcClient(modelId);
+            case BLOB_BLOB_TRANSFER_SERVER:
+                return new BLOBTransferServerModel(modelId);
             default: {
                 Log.v(TAG, "Model ID: " + String.format(Locale.US, "%04X", modelId));
                 return null;
