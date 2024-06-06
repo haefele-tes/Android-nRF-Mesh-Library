@@ -459,9 +459,9 @@ public class MeshParserUtils {
             case 2:
                 return MeshParserUtils.unsignedBytesToInt(accessPayload[1], accessPayload[0]);
             case 3:
-                return ((byte) (MeshParserUtils.unsignedByteToInt(accessPayload[1]))
-                        | (byte) ((MeshParserUtils.unsignedByteToInt(accessPayload[0]) << 8)
-                        | (byte) ((MeshParserUtils.unsignedByteToInt(accessPayload[2]) << 16))));
+                return ((MeshParserUtils.unsignedByteToInt(accessPayload[0]) << 16)
+                        | ((MeshParserUtils.unsignedByteToInt(accessPayload[1]) << 8)
+                        | (MeshParserUtils.unsignedByteToInt(accessPayload[2]))));
         }
         return -1;
     }

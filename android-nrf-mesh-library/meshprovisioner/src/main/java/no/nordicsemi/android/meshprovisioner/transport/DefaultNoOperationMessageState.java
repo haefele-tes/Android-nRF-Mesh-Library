@@ -68,11 +68,16 @@ class DefaultNoOperationMessageState extends MeshMessageState {
         //if (message.getDst() == this.mMeshTransport.ne)
         // this.mMeshTransport.mNetworkLayerCallbacks.getProvisioner().getProvisionerAddress();
 
-        //mInternalTransportCallbacks.
+        // Notify on all messages received
+        mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), new GenericAccessMessageStatus(message));
+
         final byte[] accessPayload = message.getAccessPdu();
         final ProvisionedMeshNode node = mInternalTransportCallbacks.getProvisionedNode(message.getSrc());
         final int opCodeLength = ((accessPayload[0] & 0xF0) >> 6);
-
+        if (node == null) {
+            Log.v(TAG, "Node is null, ignoring message");
+            return;
+        }
         Log.v(TAG, "parsing access message: " + MeshParserUtils.bytesToHex(accessPayload, true));
 
 
@@ -280,8 +285,6 @@ class DefaultNoOperationMessageState extends MeshMessageState {
                 mMeshStatusCallbacks.onUnknownPduReceived(message.getSrc(), message.getAccessPdu());
                 break;
         }
-				// Also notify of all messages.
-				mMeshStatusCallbacks.onMeshMessageReceived(message.getSrc(), new GenericAccessMessageStatus(message));
     }
 
     /**
