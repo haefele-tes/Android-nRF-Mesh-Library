@@ -441,18 +441,18 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
     public void sendMeshMessage(@NonNull final byte[] src, @NonNull final byte[] dst, @NonNull final MeshMessage meshMessage) {
         final int srcAddress = AddressUtils.getUnicastAddressInt(src);
         final int dstAddress = AddressUtils.getUnicastAddressInt(dst);
-        if (meshMessage instanceof ProxyConfigMessage) {
-            sendProxyConfigMeshMessage(srcAddress, dstAddress, (ProxyConfigMessage) meshMessage);
-        } else if (meshMessage instanceof ConfigMessage) {
-            sendConfigMeshMessage(srcAddress, dstAddress, (ConfigMessage) meshMessage);
-        } else if (meshMessage instanceof GenericMessage) {
-            sendAppMeshMessage(srcAddress, dstAddress, (GenericMessage) meshMessage);
-        }
+       this.sendMeshMessage(srcAddress, dstAddress, meshMessage);
     }
 
     @Override
     public void sendMeshMessage(final int src, final int dst, @NonNull final MeshMessage meshMessage) {
-        if (meshMessage instanceof ProxyConfigMessage) {
+		if (meshMessage instanceof GenericAccessMessage) {
+			final GenericAccessMessageState genericAccessMessageState = new GenericAccessMessageState(mContext, src, dst, (GenericAccessMessage) meshMessage, mMeshTransport, this);
+			genericAccessMessageState.setTransportCallbacks(mInternalTransportCallbacks);
+			genericAccessMessageState.setStatusCallbacks(mStatusCallbacks);
+			mMeshMessageState = genericAccessMessageState;
+			genericAccessMessageState.executeSend();
+		} else if (meshMessage instanceof ProxyConfigMessage) {
             sendProxyConfigMeshMessage(src, dst, (ProxyConfigMessage) meshMessage);
         } else if (meshMessage instanceof ConfigMessage) {
             sendConfigMeshMessage(src, dst, (ConfigMessage) meshMessage);
@@ -625,13 +625,7 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
      * @param genericMessage Mesh message containing the message opcode and message parameters.
      */
     private void sendAppMeshMessage(final int src, final int dst, @NonNull final GenericMessage genericMessage) {
-        if (genericMessage instanceof GenericAccessMessage) {
-			final GenericAccessMessageState genericAccessMessageState = new GenericAccessMessageState(mContext, src, dst, (GenericAccessMessage) genericMessage, mMeshTransport, this);
-			genericAccessMessageState.setTransportCallbacks(mInternalTransportCallbacks);
-			genericAccessMessageState.setStatusCallbacks(mStatusCallbacks);
-			mMeshMessageState = genericAccessMessageState;
-			genericAccessMessageState.executeSend();
-		} else if (genericMessage instanceof GenericOnOffGet) {
+		if (genericMessage instanceof GenericOnOffGet) {
             final GenericOnOffGetState genericOnOffGetState = new GenericOnOffGetState(mContext, src, dst, (GenericOnOffGet) genericMessage, mMeshTransport, this);
             genericOnOffGetState.setTransportCallbacks(mInternalTransportCallbacks);
             genericOnOffGetState.setStatusCallbacks(mStatusCallbacks);

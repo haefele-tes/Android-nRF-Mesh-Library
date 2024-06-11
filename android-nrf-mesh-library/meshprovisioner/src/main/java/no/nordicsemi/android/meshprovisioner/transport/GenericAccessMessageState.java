@@ -66,7 +66,7 @@ class GenericAccessMessageState extends GenericMessageState {
      */
     private void createAccessMessage() {
         final GenericAccessMessage genericAccessMessage = (GenericAccessMessage) mMeshMessage;
-        final byte[] key = genericAccessMessage.getAppKey();
+        final byte[] key = genericAccessMessage.getKey();
         final int akf = genericAccessMessage.getAkf();
         final int aid = genericAccessMessage.getAid();
         final int aszmic = genericAccessMessage.getAszmic();
