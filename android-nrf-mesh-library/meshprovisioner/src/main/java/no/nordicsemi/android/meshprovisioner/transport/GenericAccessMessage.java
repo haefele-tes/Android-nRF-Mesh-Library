@@ -14,30 +14,52 @@ import no.nordicsemi.android.meshprovisioner.utils.SecureUtils;
  * Allows sending arbitrary access messages
  */
 @SuppressWarnings("unused")
-public class GenericAccessMessage extends GenericMessage {
+public class GenericAccessMessage extends MeshMessage {
 
     private static final String TAG = GenericAccessMessage.class.getSimpleName();
-	private final int opcode;
+	private final int mOpcode;
+	private final byte[] mKey;
+	private final boolean mIsConfigMessage;
 
     /*
      * Constructs TimezoneSet message.
      */
     @SuppressWarnings("WeakerAccess")
-    public GenericAccessMessage(@NonNull final byte[] appKey, final int opcode, @NonNull final byte[] payload) {
-        super(appKey);
-        this.opcode = opcode;
+    public GenericAccessMessage(final int opcode, @NonNull final byte[] payload, final boolean isConfigMessage, @NonNull final byte[] key) {
+        super();
+        mOpcode = opcode;
         mParameters = payload;
-        assembleMessageParameters();
+		mKey = key;
+		mIsConfigMessage = isConfigMessage;
     }
 
-    @Override
+	@Override
+	int getAkf() {
+		return mIsConfigMessage ? 0 : 1;
+	}
+
+	@Override
+	int getAid() {
+		if (mIsConfigMessage) {
+			return 0;
+		} else {
+			return SecureUtils.calculateK4(this.mKey);
+		}
+	}
+
+	@Override
     public int getOpCode() {
-        return this.opcode;
+        return mOpcode;
     }
 
-    @Override
-    void assembleMessageParameters() {
-        mAid = SecureUtils.calculateK4(mAppKey);
-        // Nothing to do here
-    }
+	@Override
+	byte[] getParameters() {
+		return mParameters;
+	}
+
+	byte[] getKey(){
+		return mKey;
+	}
+
+
 }

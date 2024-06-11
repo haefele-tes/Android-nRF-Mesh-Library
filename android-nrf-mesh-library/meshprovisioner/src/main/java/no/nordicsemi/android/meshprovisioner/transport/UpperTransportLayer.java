@@ -252,7 +252,7 @@ abstract class UpperTransportLayer extends AccessLayer {
         } else {
             key = mUpperTransportLayerCallbacks.getApplicationKey(accessMessage.getAid());
             if (key == null)
-                throw new IllegalArgumentException("Unable to find the app key to decrypt the message");
+                throw new IllegalArgumentException("Unable to find the app key to decrypt the message for aid: " + accessMessage.getAid());
 
             final int aid = SecureUtils.calculateK4(key);
             if (aid != accessMessage.getAid()) {
