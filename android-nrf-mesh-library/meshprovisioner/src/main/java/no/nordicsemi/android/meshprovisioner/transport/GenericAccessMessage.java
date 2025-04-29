@@ -20,17 +20,19 @@ public class GenericAccessMessage extends MeshMessage {
 	private final int mOpcode;
 	private final byte[] mKey;
 	private final boolean mIsConfigMessage;
+	private final int mTTL;
 
     /*
      * Constructs TimezoneSet message.
      */
     @SuppressWarnings("WeakerAccess")
-    public GenericAccessMessage(final int opcode, @NonNull final byte[] payload, final boolean isConfigMessage, @NonNull final byte[] key) {
+    public GenericAccessMessage(final int opcode, @NonNull final byte[] payload, final boolean isConfigMessage, @NonNull final byte[] key, final int ttl) {
         super();
         mOpcode = opcode;
         mParameters = payload;
 		mKey = key;
 		mIsConfigMessage = isConfigMessage;
+		mTTL = ttl;
     }
 
 	@Override
@@ -61,5 +63,6 @@ public class GenericAccessMessage extends MeshMessage {
 		return mKey;
 	}
 
+	int getTTL() { return mTTL; }
 
 }

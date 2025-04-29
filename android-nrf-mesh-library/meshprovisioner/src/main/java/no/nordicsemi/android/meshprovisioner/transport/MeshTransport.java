@@ -115,18 +115,26 @@ public final class MeshTransport extends NetworkLayer {
     final AccessMessage createMeshMessage(final int src, final int dst,
                                           final byte[] key, final int akf, final int aid, final int aszmic,
                                           final int accessOpCode, final byte[] accessMessageParameters) {
+        return createMeshMessage(src, dst, key, akf, aid, aszmic, accessOpCode, accessMessageParameters, 8);
+    }
+
+    final AccessMessage createMeshMessage(final int src, final int dst,
+                                          final byte[] key, final int akf, final int aid, final int aszmic,
+                                          final int accessOpCode, final byte[] accessMessageParameters, final int ttl) {
         final int sequenceNumber = incrementSequenceNumber(src);
         final byte[] sequenceNum = MeshParserUtils.getSequenceNumberBytes(sequenceNumber);
 
-        Log.v(TAG, "Src address: " + MeshAddress.formatAddress(src, false));
-        Log.v(TAG, "Dst address: " + MeshAddress.formatAddress(dst, false));
-        Log.v(TAG, "Key: " + MeshParserUtils.bytesToHex(key, false));
-        Log.v(TAG, "akf: " + akf);
-        Log.v(TAG, "aid: " + aid);
-        Log.v(TAG, "aszmic: " + aszmic);
-        Log.v(TAG, "Sequence number: " + sequenceNumber);
-        Log.v(TAG, "Access message opcode: " + Integer.toHexString(accessOpCode));
-        Log.v(TAG, "Access message parameters: " + MeshParserUtils.bytesToHex(accessMessageParameters, false));
+        Log.v(TAG, "Access Message:");
+        Log.v(TAG, "    Src address: " + MeshAddress.formatAddress(src, false));
+        Log.v(TAG, "    Dst address: " + MeshAddress.formatAddress(dst, false));
+        Log.v(TAG, "    Key: " + MeshParserUtils.bytesToHex(key, false));
+        Log.v(TAG, "    Akf: " + akf);
+        Log.v(TAG, "    TTL: " + ttl);
+        Log.v(TAG, "    Aid: " + aid);
+        Log.v(TAG, "    Aszmic: " + aszmic);
+        Log.v(TAG, "    Sequence number: " + sequenceNumber);
+        Log.v(TAG, "    Access message opcode: " + Integer.toHexString(accessOpCode));
+        Log.v(TAG, "    Access message parameters: " + MeshParserUtils.bytesToHex(accessMessageParameters, false));
 
         final AccessMessage message = new AccessMessage();
         message.setSrc(src);
@@ -140,6 +148,7 @@ public final class MeshTransport extends NetworkLayer {
         message.setOpCode(accessOpCode);
         message.setParameters(accessMessageParameters);
         message.setPduType(MeshManagerApi.PDU_TYPE_NETWORK);
+        message.setTtl(ttl);
 
         super.createMeshMessage(message);
         return message;

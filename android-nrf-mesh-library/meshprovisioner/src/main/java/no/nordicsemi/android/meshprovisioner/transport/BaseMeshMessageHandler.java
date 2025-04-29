@@ -446,8 +446,8 @@ public abstract class BaseMeshMessageHandler implements MeshMessageHandlerApi, I
 
     @Override
     public void sendMeshMessage(final int src, final int dst, @NonNull final MeshMessage meshMessage) {
-		if (meshMessage instanceof GenericAccessMessage) {
-			final GenericAccessMessageState genericAccessMessageState = new GenericAccessMessageState(mContext, src, dst, (GenericAccessMessage) meshMessage, mMeshTransport, this);
+		if (meshMessage instanceof GenericAccessMessage msg) {
+			final GenericAccessMessageState genericAccessMessageState = new GenericAccessMessageState(mContext, src, dst, msg, mMeshTransport, this, msg.getTTL());
 			genericAccessMessageState.setTransportCallbacks(mInternalTransportCallbacks);
 			genericAccessMessageState.setStatusCallbacks(mStatusCallbacks);
 			mMeshMessageState = genericAccessMessageState;

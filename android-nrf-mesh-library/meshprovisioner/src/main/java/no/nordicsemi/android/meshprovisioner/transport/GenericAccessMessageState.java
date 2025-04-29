@@ -15,6 +15,7 @@ import no.nordicsemi.android.meshprovisioner.utils.MeshParserUtils;
 class GenericAccessMessageState extends GenericMessageState {
 
     private static final String TAG = GenericAccessMessageState.class.getSimpleName();
+    private final Integer ttl;
 
     /**
      * Constructs GenericAccessMessageState
@@ -32,8 +33,10 @@ class GenericAccessMessageState extends GenericMessageState {
                               @NonNull final byte[] dst,
                               @NonNull final GenericAccessMessage genericAccessMessage,
                               @NonNull final MeshTransport meshTransport,
-                              @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
-        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), genericAccessMessage, meshTransport, callbacks);
+                              @NonNull final InternalMeshMsgHandlerCallbacks callbacks,
+                              @NonNull final Integer ttl) throws IllegalArgumentException {
+        this(context, MeshParserUtils.bytesToInt(src), MeshParserUtils.bytesToInt(dst), genericAccessMessage, meshTransport, callbacks, ttl);
+
     }
 
     /**
@@ -44,6 +47,7 @@ class GenericAccessMessageState extends GenericMessageState {
      * @param dst             Destination address to which the message must be sent to
      * @param genericAccessMessage Wrapper class {@link GenericAccessMessage} containing the opcode and parameters for {@link GenericAccessMessage} message
      * @param callbacks       {@link InternalMeshMsgHandlerCallbacks} for internal callbacks
+     * @param ttl             Time to live for the message
      * @throws IllegalArgumentException for any illegal arguments provided.
      */
     GenericAccessMessageState(@NonNull final Context context,
@@ -51,8 +55,10 @@ class GenericAccessMessageState extends GenericMessageState {
                               final int dst,
                               @NonNull final GenericAccessMessage genericAccessMessage,
                               @NonNull final MeshTransport meshTransport,
-                              @NonNull final InternalMeshMsgHandlerCallbacks callbacks) throws IllegalArgumentException {
+                              @NonNull final InternalMeshMsgHandlerCallbacks callbacks,
+                              @NonNull final Integer ttl) throws IllegalArgumentException {
         super(context, src, dst, genericAccessMessage, meshTransport, callbacks);
+        this.ttl = ttl;
         createAccessMessage();
     }
 
@@ -72,7 +78,7 @@ class GenericAccessMessageState extends GenericMessageState {
         final int aszmic = genericAccessMessage.getAszmic();
         final int opCode = genericAccessMessage.getOpCode();
         final byte[] parameters = genericAccessMessage.getParameters();
-        message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters);
+        message = mMeshTransport.createMeshMessage(mSrc, mDst, key, akf, aid, aszmic, opCode, parameters, this.ttl);
         genericAccessMessage.setMessage(message);
     }
 
