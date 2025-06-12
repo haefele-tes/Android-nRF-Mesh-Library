@@ -600,6 +600,23 @@ public class MeshManagerApi implements MeshMngrApi {
                 mMeshNetwork.getGlobalTtl(), mMeshNetwork.getProvisionerAddress(), attentionTimer);
     }
 
+    public void identifyNode(@NonNull final UUID deviceUuid,
+                             final String nodeName,
+                             final int unicastAddress,
+                             final int attentionTimer) throws IllegalArgumentException {
+        mMeshProvisioningHandler.identify(
+            deviceUuid,
+            nodeName,
+            mMeshNetwork.getPrimaryNetworkKey(),
+            mMeshNetwork.getProvisioningFlags(),
+            mMeshNetwork.getIvIndex(),
+            unicastAddress,
+            mMeshNetwork.getGlobalTtl(),
+            mMeshNetwork.getProvisionerAddress(),
+            attentionTimer
+        );
+    }
+
     @Override
     public void startProvisioning(@NonNull final UnprovisionedMeshNode unprovisionedMeshNode) throws IllegalArgumentException {
         mMeshProvisioningHandler.startProvisioningNoOOB(unprovisionedMeshNode);
