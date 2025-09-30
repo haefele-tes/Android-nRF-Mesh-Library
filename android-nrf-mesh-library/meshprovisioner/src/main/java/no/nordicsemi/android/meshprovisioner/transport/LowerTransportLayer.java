@@ -448,13 +448,13 @@ abstract class LowerTransportLayer extends UpperTransportLayer {
 
         final int blockAckSrc = MeshParserUtils.unsignedBytesToInt(dst[1], dst[0]); //Destination of the received packet would be the source for the ack
         final int blockAckDst = MeshParserUtils.unsignedBytesToInt(src[1], src[0]); //Source of the received packet would be the destination for the ack
+        final int ivi = (pdu[1] >> 7) & 0x01; // Read IVI from IVI|NID in the PDU
 
         Log.v(TAG, "SEG O: " + segO);
         Log.v(TAG, "SEG N: " + segN);
 
-        final int ivIndex = ByteBuffer.wrap(mUpperTransportLayerCallbacks.getIvIndex()).order(ByteOrder.BIG_ENDIAN).getInt();
-        // FIXME: this is probably incorrect, ivIndex needs to be shifted left? or masked with ivi only
-        final int seqAuth = ivIndex | getTransportLayerSequenceNumber(MeshParserUtils.getSequenceNumberFromPDU(pdu), seqZero);
+        final int firstSequenceNumber = getTransportLayerSequenceNumber(MeshParserUtils.getSequenceNumberFromPDU(pdu), seqZero);
+        final int seqAuth = ((ivi & 0x01) << 24) | (firstSequenceNumber & 0xFFFFFF);
         final Integer lastSeqAuth = mMeshNode.getSeqAuth(blockAckDst);
         if (lastSeqAuth != null)
             Log.v(TAG, "Last SeqAuth value " + lastSeqAuth);
