@@ -421,7 +421,7 @@ public abstract class NetworkLayer extends LowerTransportLayer {
         final Provisioner provisioner = mNetworkLayerCallbacks.getProvisioner();
 
         //header
-        final int ivIndexLSB = (data[0] & 0x80) >> 7;
+        final int ivIndexLSB = (data[1] & 0x80) >> 7;
         byte[] ivIndex = mUpperTransportLayerCallbacks.getIvIndex();
         final int currentIvIndex = ByteBuffer.wrap(ivIndex).order(ByteOrder.BIG_ENDIAN).getInt();
         int adjustedIvIndex = currentIvIndex;
@@ -429,6 +429,7 @@ public abstract class NetworkLayer extends LowerTransportLayer {
             adjustedIvIndex = currentIvIndex - 1;
         }
         ivIndex = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(adjustedIvIndex).array();
+        Log.v(TAG, "IVIndex for received message: " + adjustedIvIndex + " ivi: " + ivIndexLSB);
 
         //D-eobfuscate network header
         final byte[] networkHeader = deobfuscateNetworkHeader(ivIndex, data);
