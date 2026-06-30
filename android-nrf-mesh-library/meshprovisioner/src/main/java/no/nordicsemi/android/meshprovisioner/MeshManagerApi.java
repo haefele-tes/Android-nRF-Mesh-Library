@@ -382,7 +382,10 @@ public class MeshManagerApi implements MeshMngrApi {
                     // TODO: also check if update is progress reset seq number if
                     if (receivedBeacon.getIvIndex().getIvIndex() > mMeshNetwork.getIvIndex()) {
                         Log.v(TAG, "Should override network ivindex");
-                        mMeshNetwork.setIvIndex(receivedBeacon.getIvIndex().getIvIndex());
+                        final int newIvIndex = receivedBeacon.getIvIndex().getIvIndex();
+                        mMeshNetwork.setIvIndex(newIvIndex);
+                        // Emit the increase to JS so it can persist it and push it back on next inject.
+                        mTransportCallbacks.onIvIndexUpdated(newIvIndex);
                     }
                 } else {
                     Log.v(TAG, "Authentication does not match: " + MeshParserUtils.bytesToHex(localSecureNetworkBeacon.getAuthenticationValue(), true) + " != " + MeshParserUtils.bytesToHex(receivedBeacon.getAuthenticationValue(), true));

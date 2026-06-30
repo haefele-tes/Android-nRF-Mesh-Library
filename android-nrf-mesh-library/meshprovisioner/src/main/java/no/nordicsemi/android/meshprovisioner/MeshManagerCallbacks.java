@@ -47,6 +47,14 @@ public interface MeshManagerCallbacks {
     void onNetworkUpdated(final MeshNetwork meshNetwork);
 
     /**
+     * Called when the network IV index increases (adopted from a Secure Network Beacon).
+     * Default no-op so existing implementers are unaffected; the RN bridge overrides it.
+     *
+     * @param ivIndex the new network IV index
+     */
+    default void onIvIndexUpdated(final int ivIndex) { }
+
+    /**
      * Callback that notifies in case the mesh network was unable to load
      *
      * @param error error
