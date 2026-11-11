@@ -379,12 +379,15 @@ public class MeshManagerApi implements MeshMngrApi {
                 Log.v(TAG, "Received mesh beacon: " + MeshParserUtils.bytesToHex(receivedBeaconData, true) + " with index: " + receivedBeacon.getIvIndex() + " with network id: " + MeshParserUtils.bytesToHex(receivedBeacon.getNetworkId(), false));
                 if (receivedBeacon.authenticate(n)) {
                     Log.v(TAG, "Authentication matches");
-                    // TODO: also check if update is progress reset seq number if
-                    if (receivedBeacon.getIvIndex().getIvIndex() > mMeshNetwork.getIvIndex()) {
-                        Log.v(TAG, "Should override network ivindex");
-                        final int newIvIndex = receivedBeacon.getIvIndex().getIvIndex();
+                    // While an IV Update is in progress nodes still transmit with IV index - 1 (and accept
+                    // both), so that is the value we have to transmit with as well. The connected proxy
+                    // beacons its own IV state, follow it in both directions so a wrongly adopted (higher)
+                    // IV index heals on the next connection instead of sticking forever.
+                    final int newIvIndex = receivedBeacon.getIvIndex().getTransmitIvIndex();
+                    if (newIvIndex != mMeshNetwork.getIvIndex()) {
+                        Log.v(TAG, "Should override network ivindex " + mMeshNetwork.getIvIndex() + " -> " + newIvIndex);
                         mMeshNetwork.setIvIndex(newIvIndex);
-                        // Emit the increase to JS so it can persist it and push it back on next inject.
+                        // Emit the change to JS so it can persist it and push it back on next inject.
                         mTransportCallbacks.onIvIndexUpdated(newIvIndex);
                     }
                 } else {
